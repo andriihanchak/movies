@@ -10,5 +10,5 @@ import Foundation
 struct MoviesViewItem {
     
     let title: String
-    let imageName: String
+    let posterURL: URL?
 }
