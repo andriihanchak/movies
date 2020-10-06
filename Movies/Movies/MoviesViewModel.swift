@@ -44,6 +44,9 @@ final class MoviesViewModel: MoviesViewModelType {
     }
     
     func load() {
+        guard filter.value?.isEmpty == true
+        else { return }
+        
         movieService.getPopularMovies(page: page)
             .observeOn(MainScheduler.instance)
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
