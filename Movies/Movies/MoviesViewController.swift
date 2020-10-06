@@ -5,45 +5,55 @@
 //  Created by Andrii Hanchak on 06.10.2020.
 //
 
+import RxCocoa
+import RxSwift
 import UIKit
 
 final class MoviesViewController: UITableViewController {
     
-    var items: [MoviesViewItem] = []
+    var viewModel: MoviesViewModelType?
+    
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureUserInterface()
+        configureBindings()
+        
+        viewModel?.load()
+    }
+    
+    private func configureBindings() {
+        tableView.rx.contentOffset
+            .compactMap { [weak self] (offset) -> Bool? in
+                guard let tableView = self?.tableView
+                else { return false }
+                return tableView.contentOffset.y >= (tableView.contentSize.height - tableView.frame.size.height)
+            }.skip(2)
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] (loadMore) in loadMore ? self?.viewModel?.load() : () })
+            .disposed(by: disposeBag)
+        
+        tableView.rx.itemSelected
+            .subscribe(onNext: { [weak self] (indexPath) in
+                self?.tableView.deselectRow(at: indexPath, animated: true)
+                self?.viewModel?.showDetails(forItemAt: indexPath.row)
+            }).disposed(by: disposeBag)
+        
+        viewModel?.items.bind(to: tableView.rx.items(cellIdentifier: MoviesViewCell.defaultReuseIdentifier,
+                                                     cellType: MoviesViewCell.self)) { (row, item, cell) in
+            cell.configure(with: item)
+        }.disposed(by: disposeBag)
+        
+        viewModel?.title.bind(to: rx.title)
+            .disposed(by: disposeBag)
+    }
+    
+    private func configureUserInterface() {
+        tableView.dataSource = nil
+        tableView.delegate = nil
         tableView.rowHeight = 100
         tableView.tableFooterView = .init(frame: .zero)
-    }
-}
-
-extension MoviesViewController {
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = MoviesViewCell.dequeueReusableCell(from: tableView, at: indexPath)
-        let item = items[indexPath.row]
-        
-        cell.configure(with: item)
-        
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
-    }
-}
-
-extension MoviesViewController {
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = storyboard.instantiateViewController(of: MovieDetailsViewController.self)
-        
-        navigationController?.pushViewController(viewController, animated: true)
-        
     }
 }

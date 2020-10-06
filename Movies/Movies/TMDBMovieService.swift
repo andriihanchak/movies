@@ -7,68 +7,81 @@
 
 import Alamofire
 import Foundation
+import RxSwift
 
-final class TMDBMovieService {
+final class TMDBMovieService: MovieService {
     
     private let apiKey: String
     
     init(apiKey: String) {
         self.apiKey = apiKey
     }
-}
-
-extension TMDBMovieService: MovieService {
     
-    func getMovieDetails(_ movie: Movie, completion: @escaping (Movie) -> Void) {
+    func getMovieDetails(_ movie: Movie) -> Observable<Movie> {
         let request = AF.request(API.movieDetails(id: movie.id).url(),
                                  method: .get,
-                                 parameters: parameters,
+                                 parameters: defaultParameters(),
                                  encoding: URLEncoding(destination: .queryString))
         
-        request.responseDecodable { (response: DataResponse<Movie, AFError>) in
-            switch response.result {
-            case .failure(_):
-                completion(movie)
-                
-            case let .success(movie):
-                completion(movie)
+        return Single<Movie>.create { (promise) -> Disposable in
+            request.responseDecodable { (response: DataResponse<Movie, AFError>) in
+                switch response.result {
+                case .failure(_):
+                    promise(.error(Error.getMovieDetails(movie)))
+                    
+                case let .success(movie):
+                    promise(.success(movie))
+                }
             }
-        }
-        
+            
+            return Disposables.create { request.cancel() }
+        }.asObservable()
     }
     
-    func getMovieVideo(_ movie: Movie, completion: @escaping ([MovieVideo]) -> Void) {
+    func getMovieVideos(_ movie: Movie) -> Observable<[MovieVideo]> {
         let request = AF.request(API.movieVideo(id: movie.id).url(),
                                  method: .get,
-                                 parameters: parameters,
+                                 parameters: defaultParameters(),
                                  encoding: URLEncoding(destination: .queryString))
         
-        request.responseDecodable { (response: DataResponse<TMDBMovieVideo, AFError>) in
-            switch response.result{
-            case .failure(_):
-                completion([])
-                
-            case let .success(response):
-                completion(response.results)
+        return Single<[MovieVideo]>.create { (promise) -> Disposable in
+            request.responseDecodable { (response: DataResponse<TMDBMovieVideo, AFError>) in
+                switch response.result{
+                case .failure(_):
+                    promise(.error(Error.getMovieVideos(movie)))
+                    
+                case let .success(response):
+                    promise(.success(response.results))
+                }
             }
-        }
+            
+            return Disposables.create { request.cancel() }
+        }.asObservable()
     }
     
-    func getPopularMovies(completion: @escaping ([Movie]) -> Void) {
+    func getPopularMovies(page: Int) -> Observable<TMDBPopularMovie> {
+        var parameters = defaultParameters()
+        
+        parameters["page"] = page
+        
         let request = AF.request(API.popularMovies.url(),
                                  method: .get,
                                  parameters: parameters,
                                  encoding: URLEncoding(destination: .queryString))
-
-        request.responseDecodable { (response: DataResponse<TMDBPopularMovie, AFError>) in
-            switch response.result {
-            case .failure(_):
-                completion([])
-                
-            case let .success(popularMovies):
-                completion(popularMovies.results)
+        
+        return Single<TMDBPopularMovie>.create { (promise) -> Disposable in
+            request.responseDecodable { (response: DataResponse<TMDBPopularMovie, AFError>) in
+                switch response.result {
+                case .failure(_):
+                    promise(.error(Error.getPopularMovies))
+                    
+                case let .success(popularMovies):
+                    promise(.success(popularMovies))
+                }
             }
-        }
+            
+            return Disposables.create { request.cancel() }
+        }.asObservable()
     }
 }
 
@@ -96,7 +109,7 @@ extension TMDBMovieService {
         }
     }
     
-    private var parameters: [String: Any] {
+    private func defaultParameters() -> [String: Any] {
         return ["api_key": apiKey]
     }
 }
