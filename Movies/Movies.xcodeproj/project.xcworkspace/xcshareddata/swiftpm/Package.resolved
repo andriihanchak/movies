@@ -20,6 +20,24 @@
         }
       },
       {
+        "package": "RxSwift",
+        "repositoryURL": "https://github.com/ReactiveX/RxSwift",
+        "state": {
+          "branch": null,
+          "revision": "002d325b0bdee94e7882e1114af5ff4fe1e96afa",
+          "version": "5.1.1"
+        }
+      },
+      {
+        "package": "SDWebImage",
+        "repositoryURL": "https://github.com/SDWebImage/SDWebImage.git",
+        "state": {
+          "branch": null,
+          "revision": "665d02280f5c04515e76feb78078dd89da091f3e",
+          "version": "5.9.2"
+        }
+      },
+      {
         "package": "XCDYouTubeKit",
         "repositoryURL": "https://github.com/0xced/XCDYouTubeKit.git",
         "state": {
