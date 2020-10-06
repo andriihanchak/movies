@@ -9,16 +9,14 @@ import UIKit
 
 final class MovieDetailsViewCoordinator: Coordinator {
     
-    private let navigationController: UINavigationController
+    private let appContext: AppContext
     private let movie: Movie
-    private let movieService: MovieService
-    private let posterService: PosterService
+    private let navigationController: UINavigationController
     
-    init(navigationController: UINavigationController, movie: Movie, movieService: MovieService, posterService: PosterService) {
-        self.navigationController = navigationController
+    init(navigationController: UINavigationController, movie: Movie, appContext: AppContext) {
+        self.appContext = appContext
         self.movie = movie
-        self.movieService = movieService
-        self.posterService = posterService
+        self.navigationController = navigationController
     }
     
     override func start() {
@@ -27,7 +25,7 @@ final class MovieDetailsViewCoordinator: Coordinator {
         guard let viewController = storyboard.instantiateViewController(withIdentifier: MovieDetailsViewController.defaultStoryboardIdentifier) as? MovieDetailsViewController
         else { return }
         
-        let viewModel = MovieDetailsViewModel(movie: movie, movieService: movieService, posterService: posterService)
+        let viewModel = MovieDetailsViewModel(movie: movie, movieService: appContext.tmdbMovieService, posterService: appContext.tmdbPosterService)
         
         viewController.viewModel = viewModel
         

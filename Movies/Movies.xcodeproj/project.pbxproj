@@ -52,6 +52,7 @@
 		85D97BC3252CCE7C0043F985 /* MoviesViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D97BC2252CCE7C0043F985 /* MoviesViewCoordinator.swift */; };
 		85D97BC9252CD2930043F985 /* MovieDetailsViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D97BC8252CD2930043F985 /* MovieDetailsViewModelType.swift */; };
 		85D97BD3252CD5260043F985 /* MovieDetailsViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D97BD2252CD5260043F985 /* MovieDetailsViewCoordinator.swift */; };
+		85D97BDD252CD7490043F985 /* AppContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D97BDC252CD7490043F985 /* AppContext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,7 @@
 		85D97BC2252CCE7C0043F985 /* MoviesViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesViewCoordinator.swift; sourceTree = "<group>"; };
 		85D97BC8252CD2930043F985 /* MovieDetailsViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewModelType.swift; sourceTree = "<group>"; };
 		85D97BD2252CD5260043F985 /* MovieDetailsViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewCoordinator.swift; sourceTree = "<group>"; };
+		85D97BDC252CD7490043F985 /* AppContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContext.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -305,6 +307,7 @@
 			isa = PBXGroup;
 			children = (
 				85190CBE252B57EC0038635E /* AppDelegate.swift */,
+				85D97BDC252CD7490043F985 /* AppContext.swift */,
 			);
 			name = Application;
 			sourceTree = "<group>";
@@ -501,6 +504,7 @@
 				85D97BBA252CCE1C0043F985 /* CoordinatorType.swift in Sources */,
 				85D97BC3252CCE7C0043F985 /* MoviesViewCoordinator.swift in Sources */,
 				850DE1D3252C54D700EDABCF /* TMDBMovieService.swift in Sources */,
+				85D97BDD252CD7490043F985 /* AppContext.swift in Sources */,
 				85190D2F252B63870038635E /* MovieDetailsViewController.swift in Sources */,
 				85190D23252B618C0038635E /* MovieDetailsViewMediaCell.swift in Sources */,
 				85190D29252B619A0038635E /* MovieDetailsViewTextCell.swift in Sources */,

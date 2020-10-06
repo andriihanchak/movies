@@ -10,19 +10,18 @@ import UIKit
 
 final class MoviesViewCoordinator: Coordinator {
     
+    private let appContext: AppContext
     private let disposeBag = DisposeBag()
-    private let movieService: MovieService
-    private let posterService: PosterService
     private var window: UIWindow?
     
-    init(window: UIWindow?, movieService: MovieService, posterService: PosterService) {
-        self.movieService = movieService
-        self.posterService = posterService
+    init(window: UIWindow?, appContext: AppContext) {
+        self.appContext = appContext
         self.window = window
     }
     
     override func start() {
-        let viewModel = MoviesViewModel(movieService: movieService, posterService: posterService)
+        let viewModel = MoviesViewModel(movieService: appContext.tmdbMovieService,
+                                        posterService: appContext.tmdbPosterService)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let navigationController = storyboard.instantiateInitialViewController() as? UINavigationController
         let viewController = navigationController?.topViewController as? MoviesViewController
@@ -44,7 +43,7 @@ final class MoviesViewCoordinator: Coordinator {
         guard let navigationController = window?.rootViewController as? UINavigationController
         else { return }
         
-        let coordinator = MovieDetailsViewCoordinator(navigationController: navigationController, movie: movie, movieService: movieService, posterService: posterService)
+        let coordinator = MovieDetailsViewCoordinator(navigationController: navigationController, movie: movie, appContext: appContext)
         
         coordinator.start()
     }
