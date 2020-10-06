@@ -12,7 +12,13 @@ import RxSwift
 final class MoviesViewModel: MoviesViewModelType {
     
     var items: Observable<[MoviesViewItem]> {
-        return movies.map { $0.compactMap { (movie) in self.createMovieViewItem(from: movie) } }
+        Observable.combineLatest(movies, filter)
+            .map { (movies, filter) -> [Movie] in
+                guard let filter = filter, !filter.isEmpty
+                else { return movies }
+                return movies.filter { (movie) in movie.title.lowercased().contains(filter.lowercased()) } }
+            .map { $0.compactMap { (movie) in self.createMovieViewItem(from: movie) } }
+            .asObservable()
     }
     
     var title: Observable<String> { .just("Movies") }
@@ -20,6 +26,7 @@ final class MoviesViewModel: MoviesViewModelType {
     var onShowMovieDetailsView: Observable<Movie> { showMovieDetailsView.compactMap{ $0 }.asObservable()  }
 
     private let disposeBag = DisposeBag()
+    private var filter: BehaviorRelay<String?> = .init(value: nil)
     private var movies: BehaviorRelay<[Movie]> = .init(value: [])
     private var page: Int = 1
     private let showMovieDetailsView: BehaviorRelay<Movie?> = .init(value: nil)
@@ -30,6 +37,10 @@ final class MoviesViewModel: MoviesViewModelType {
     init(movieService: MovieService, posterService: PosterService) {
         self.movieService = movieService
         self.posterService = posterService
+    }
+    
+    func filter(with criteria: String?) {
+        filter.accept(criteria)
     }
     
     func load() {

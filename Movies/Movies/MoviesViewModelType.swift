@@ -13,6 +13,7 @@ protocol MoviesViewModelType {
     var items: Observable<[MoviesViewItem]> { get }
     var title: Observable<String> { get }
     
+    func filter(with criteria: String?)
     func load()
     func showDetails(forItemAt index: Int)
 }

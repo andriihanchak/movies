@@ -46,7 +46,7 @@ final class MoviesViewController: UIViewController {
             .disposed(by: disposeBag)
         
         searchBar.rx.text
-            .subscribe(onNext: { (text) in print(text ?? "no search") })
+            .subscribe(onNext: { [weak self] (text) in self?.viewModel?.filter(with: text) })
             .disposed(by: disposeBag)
         
         tableView.rx.contentOffset
