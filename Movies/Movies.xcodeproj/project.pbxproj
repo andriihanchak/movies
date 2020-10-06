@@ -36,6 +36,12 @@
 		85190D3D252B667C0038635E /* MovieDetailsViewMediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85190D3C252B667C0038635E /* MovieDetailsViewMediaItem.swift */; };
 		85190D41252B67180038635E /* MovieDetailsViewTextItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85190D40252B67180038635E /* MovieDetailsViewTextItem.swift */; };
 		85190D4D252B67E60038635E /* MovieDetailsViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85190D4C252B67E60038635E /* MovieDetailsViewItem.swift */; };
+		85D97B7F252C97070043F985 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 85D97B7E252C97070043F985 /* RxSwift */; };
+		85D97B81252C97070043F985 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 85D97B80252C97070043F985 /* RxRelay */; };
+		85D97B83252C97070043F985 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 85D97B82252C97070043F985 /* RxCocoa */; };
+		85D97B85252C97070043F985 /* RxBlocking in Frameworks */ = {isa = PBXBuildFile; productRef = 85D97B84252C97070043F985 /* RxBlocking */; };
+		85D97B89252C98B70043F985 /* MoviesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D97B88252C98B70043F985 /* MoviesViewModel.swift */; };
+		85D97B8E252CA89E0043F985 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 85D97B8D252CA89E0043F985 /* SDWebImage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,9 +92,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85D97B83252C97070043F985 /* RxCocoa in Frameworks */,
+				85D97B81252C97070043F985 /* RxRelay in Frameworks */,
+				85D97B8E252CA89E0043F985 /* SDWebImage in Frameworks */,
 				850DE1C2252C538300EDABCF /* Alamofire in Frameworks */,
 				850DE1C7252C53D100EDABCF /* AlamofireImage in Frameworks */,
+				85D97B7F252C97070043F985 /* RxSwift in Frameworks */,
 				850DE1CC252C543700EDABCF /* XCDYouTubeKit in Frameworks */,
+				85D97B85252C97070043F985 /* RxBlocking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,6 +345,11 @@
 				850DE1C1252C538300EDABCF /* Alamofire */,
 				850DE1C6252C53D100EDABCF /* AlamofireImage */,
 				850DE1CB252C543700EDABCF /* XCDYouTubeKit */,
+				85D97B7E252C97070043F985 /* RxSwift */,
+				85D97B80252C97070043F985 /* RxRelay */,
+				85D97B82252C97070043F985 /* RxCocoa */,
+				85D97B84252C97070043F985 /* RxBlocking */,
+				85D97B8D252CA89E0043F985 /* SDWebImage */,
 			);
 			productName = Movies;
 			productReference = 85190CBB252B57EC0038635E /* Movies.app */;
@@ -388,6 +404,8 @@
 				850DE1C0252C538300EDABCF /* XCRemoteSwiftPackageReference "Alamofire" */,
 				850DE1C5252C53D100EDABCF /* XCRemoteSwiftPackageReference "AlamofireImage" */,
 				850DE1CA252C543700EDABCF /* XCRemoteSwiftPackageReference "XCDYouTubeKit" */,
+				85D97B7D252C97070043F985 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				85D97B8C252CA89E0043F985 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 			);
 			productRefGroup = 85190CBC252B57EC0038635E /* Products */;
 			projectDirPath = "";
@@ -1138,6 +1156,22 @@
 				minimumVersion = 2.14.1;
 			};
 		};
+		85D97B7D252C97070043F985 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.1;
+			};
+		};
+		85D97B8C252CA89E0043F985 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1155,6 +1189,31 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 850DE1CA252C543700EDABCF /* XCRemoteSwiftPackageReference "XCDYouTubeKit" */;
 			productName = XCDYouTubeKit;
+		};
+		85D97B7E252C97070043F985 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 85D97B7D252C97070043F985 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		85D97B80252C97070043F985 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 85D97B7D252C97070043F985 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		85D97B82252C97070043F985 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 85D97B7D252C97070043F985 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		85D97B84252C97070043F985 /* RxBlocking */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 85D97B7D252C97070043F985 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxBlocking;
+		};
+		85D97B8D252CA89E0043F985 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 85D97B8C252CA89E0043F985 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
