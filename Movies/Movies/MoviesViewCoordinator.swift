@@ -45,6 +45,6 @@ final class MoviesViewCoordinator: Coordinator {
         
         let coordinator = MovieDetailsViewCoordinator(navigationController: navigationController, movie: movie, appContext: appContext)
         
-        coordinator.start()
+        start(coordination: coordinator)
     }
 }

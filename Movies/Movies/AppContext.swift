@@ -13,4 +13,5 @@ final class AppContext {
     
     let tmdbMovieService = TMDBMovieService(apiKey: apiKey)
     let tmdbPosterService = TMDBPosterService()
+    let xcdYoutubeService = XCDYouTubeService()
 }

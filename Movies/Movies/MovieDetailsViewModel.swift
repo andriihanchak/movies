@@ -14,19 +14,30 @@ final class MovieDetailsViewModel: MovieDetailsViewModelType {
     var items: Observable<[MovieDetailsViewItem]> { movie.map { self.createItems(from: $0) } }
     var title: Observable<String> { .just("Movie Details") }
     
+    var onDeinitialize: Observable<Void> { deinitialize.asObservable() }
+    var onShowPlayerView: Observable<URL> { showPlayerView.compactMap { $0 } }
+    
     static private let dateFormatter = DateFormatter()
     
+    private let deinitialize: BehaviorRelay<Void> = .init(value: ())
     private let disposeBag = DisposeBag()
     private let movie: BehaviorRelay<Movie>
+    private let showPlayerView: BehaviorRelay<URL?> = .init(value: nil)
     private let trailerURL: BehaviorRelay<URL?> = .init(value: nil)
     
     private let movieService: MovieService
     private let posterService: PosterService
+    private let trailerService: TrailerService
     
-    init(movie: Movie, movieService: MovieService, posterService: PosterService) {
+    init(movie: Movie, movieService: MovieService, posterService: PosterService, trailerService: TrailerService) {
         self.movie = .init(value: movie)
         self.movieService = movieService
         self.posterService = posterService
+        self.trailerService = trailerService
+    }
+    
+    deinit {
+        deinitialize.accept(())
     }
     
     func loadDetails() {
@@ -36,21 +47,21 @@ final class MovieDetailsViewModel: MovieDetailsViewModelType {
         Observable.combineLatest(getMovieDetails, getMovieVideos)
             .observeOn(MainScheduler.instance)
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .subscribe { [weak self] (movie, videos) in self?.updateMovie(update: movie, videos: videos) }
+            .subscribe { [weak self] (movie, videos) in self?.updateMovie(movie: movie, videos: videos) }
             .disposed(by: disposeBag)
     }
     
     func watchTrailer() {
-        
+        showPlayerView.accept(trailerURL.value)
     }
     
-    private func updateMovie(update: Movie, videos: [MovieVideo]) {
-        movie.accept(update)
+    private func updateMovie(movie: Movie, videos: [MovieVideo]) {
+        self.movie.accept(movie)
         
         if let video = videos.first {
-            let url = URL(string: "https://www.youtube.com/watch?v=\(video.key)")
-            
-            trailerURL.accept(url)
+            trailerService.getMovieTrailerURL(video)
+                .bind(to: trailerURL)
+                .disposed(by: disposeBag)
         }
     }
     
