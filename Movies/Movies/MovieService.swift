@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol MovieService {
     
-    func getMovieDetails(_ movie: Movie, completion: @escaping (Movie) -> Void)
-    func getMovieVideo(_ movie: Movie, completion: @escaping ([MovieVideo]) -> Void)
-    func getPopularMovies(completion: @escaping ([Movie]) -> Void)
+    func getMovieDetails(_ movie: Movie) -> Observable<Movie>
+    func getMovieVideos(_ movie: Movie) -> Observable<[MovieVideo]>
+    func getPopularMovies() -> Observable<[Movie]>
 }
