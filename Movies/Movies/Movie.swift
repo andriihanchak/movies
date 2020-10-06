@@ -15,7 +15,7 @@ struct Movie: Codable {
         case id
         case genres
         case overview
-        case posterPath = "poster_path"
+        case posterPath = "backdrop_path"
         case title
         
     }
@@ -24,7 +24,7 @@ struct Movie: Codable {
     let id: Int
     let genres: [MovieGenre]
     let overview: String
-    let posterPath: String
+    let posterPath: String?
     let title: String
     
     init(from decoder: Decoder) throws {
@@ -34,7 +34,7 @@ struct Movie: Codable {
         id = try container.decode(Int.self, forKey: .id)
         genres = try container.decodeIfPresent([MovieGenre].self, forKey: .genres) ?? []
         overview = try container.decode(String.self, forKey: .overview)
-        posterPath = try container.decode(String.self, forKey: .posterPath)
+        posterPath = try container.decodeIfPresent(String.self, forKey: .posterPath)
         title = try container.decode(String.self, forKey: .title)
     }
 }
