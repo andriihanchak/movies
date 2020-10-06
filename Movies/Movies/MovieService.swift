@@ -12,5 +12,5 @@ protocol MovieService {
     
     func getMovieDetails(_ movie: Movie) -> Observable<Movie>
     func getMovieVideos(_ movie: Movie) -> Observable<[MovieVideo]>
-    func getPopularMovies() -> Observable<[Movie]>
+    func getPopularMovies(page: Int) -> Observable<TMDBPopularMovie>
 }

@@ -20,7 +20,7 @@ final class TMDBMovieService: MovieService {
     func getMovieDetails(_ movie: Movie) -> Observable<Movie> {
         let request = AF.request(API.movieDetails(id: movie.id).url(),
                                  method: .get,
-                                 parameters: parameters,
+                                 parameters: defaultParameters(),
                                  encoding: URLEncoding(destination: .queryString))
         
         return Single<Movie>.create { (promise) -> Disposable in
@@ -41,7 +41,7 @@ final class TMDBMovieService: MovieService {
     func getMovieVideos(_ movie: Movie) -> Observable<[MovieVideo]> {
         let request = AF.request(API.movieVideo(id: movie.id).url(),
                                  method: .get,
-                                 parameters: parameters,
+                                 parameters: defaultParameters(),
                                  encoding: URLEncoding(destination: .queryString))
         
         return Single<[MovieVideo]>.create { (promise) -> Disposable in
@@ -59,20 +59,24 @@ final class TMDBMovieService: MovieService {
         }.asObservable()
     }
     
-    func getPopularMovies() -> Observable<[Movie]> {
+    func getPopularMovies(page: Int) -> Observable<TMDBPopularMovie> {
+        var parameters = defaultParameters()
+        
+        parameters["page"] = page
+        
         let request = AF.request(API.popularMovies.url(),
                                  method: .get,
                                  parameters: parameters,
                                  encoding: URLEncoding(destination: .queryString))
         
-        return Single<[Movie]>.create { (promise) -> Disposable in
+        return Single<TMDBPopularMovie>.create { (promise) -> Disposable in
             request.responseDecodable { (response: DataResponse<TMDBPopularMovie, AFError>) in
                 switch response.result {
                 case .failure(_):
                     promise(.error(Error.getPopularMovies))
                     
                 case let .success(popularMovies):
-                    promise(.success(popularMovies.results))
+                    promise(.success(popularMovies))
                 }
             }
             
@@ -105,7 +109,7 @@ extension TMDBMovieService {
         }
     }
     
-    private var parameters: [String: Any] {
+    private func defaultParameters() -> [String: Any] {
         return ["api_key": apiKey]
     }
 }
