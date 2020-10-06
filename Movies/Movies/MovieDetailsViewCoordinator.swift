@@ -61,8 +61,16 @@ final class MovieDetailsViewCoordinator: Coordinator {
         
         playerViewController.player = player
         
+        NotificationCenter.default.addObserver(self, selector: #selector(dismissPlayerView),
+                                               name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+                                               object: playerViewController.player?.currentItem)
+        
         navigationController.topViewController?.present(playerViewController, animated: true) {
             player.play()
         }
+    }
+    
+    @objc private func dismissPlayerView() {
+        navigationController.topViewController?.presentedViewController?.dismiss(animated: true, completion: nil)
     }
 }
