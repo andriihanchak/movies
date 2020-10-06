@@ -23,7 +23,6 @@
 		850DE1F3252C6CFB00EDABCF /* PosterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850DE1F2252C6CFB00EDABCF /* PosterService.swift */; };
 		850DE1F9252C737000EDABCF /* TMDBPosterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850DE1F8252C737000EDABCF /* TMDBPosterService.swift */; };
 		85190CBF252B57EC0038635E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85190CBE252B57EC0038635E /* AppDelegate.swift */; };
-		85190CC1252B57EC0038635E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85190CC0252B57EC0038635E /* SceneDelegate.swift */; };
 		85190CC6252B57EC0038635E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85190CC4252B57EC0038635E /* Main.storyboard */; };
 		85190CC8252B57EE0038635E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85190CC7252B57EE0038635E /* Assets.xcassets */; };
 		85190CCB252B57EE0038635E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85190CC9252B57EE0038635E /* LaunchScreen.storyboard */; };
@@ -64,7 +63,6 @@
 		850DE1F8252C737000EDABCF /* TMDBPosterService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TMDBPosterService.swift; sourceTree = "<group>"; };
 		85190CBB252B57EC0038635E /* Movies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85190CBE252B57EC0038635E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		85190CC0252B57EC0038635E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		85190CC5252B57EC0038635E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		85190CC7252B57EE0038635E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		85190CCA252B57EE0038635E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -273,7 +271,6 @@
 			isa = PBXGroup;
 			children = (
 				85190CBE252B57EC0038635E /* AppDelegate.swift */,
-				85190CC0252B57EC0038635E /* SceneDelegate.swift */,
 			);
 			name = Application;
 			sourceTree = "<group>";
@@ -442,7 +439,6 @@
 				850DE1E2252C617C00EDABCF /* MovieGenre.swift in Sources */,
 				85190D1E252B5D550038635E /* MoviesViewCell.swift in Sources */,
 				850DE1DA252C5F0500EDABCF /* TMDBPopularMovie.swift in Sources */,
-				85190CC1252B57EC0038635E /* SceneDelegate.swift in Sources */,
 				850DE1EA252C6B1B00EDABCF /* TMDBMovieVideo.swift in Sources */,
 				850DE18A252C4EA700EDABCF /* UITableViewCell.swift in Sources */,
 				85190D3D252B667C0038635E /* MovieDetailsViewMediaItem.swift in Sources */,
