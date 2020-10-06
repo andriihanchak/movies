@@ -3,13 +3,16 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		850DE18A252C4EA700EDABCF /* UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850DE189252C4EA700EDABCF /* UITableViewCell.swift */; };
 		850DE1AA252C512800EDABCF /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850DE1A9252C512800EDABCF /* UIViewController.swift */; };
 		850DE1AE252C515200EDABCF /* UIStoryboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850DE1AD252C515200EDABCF /* UIStoryboard.swift */; };
+		850DE1C2252C538300EDABCF /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 850DE1C1252C538300EDABCF /* Alamofire */; };
+		850DE1C7252C53D100EDABCF /* AlamofireImage in Frameworks */ = {isa = PBXBuildFile; productRef = 850DE1C6252C53D100EDABCF /* AlamofireImage */; };
+		850DE1CC252C543700EDABCF /* XCDYouTubeKit in Frameworks */ = {isa = PBXBuildFile; productRef = 850DE1CB252C543700EDABCF /* XCDYouTubeKit */; };
 		85190CBF252B57EC0038635E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85190CBE252B57EC0038635E /* AppDelegate.swift */; };
 		85190CC1252B57EC0038635E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85190CC0252B57EC0038635E /* SceneDelegate.swift */; };
 		85190CC6252B57EC0038635E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85190CC4252B57EC0038635E /* Main.storyboard */; };
@@ -67,6 +70,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				850DE1C2252C538300EDABCF /* Alamofire in Frameworks */,
+				850DE1C7252C53D100EDABCF /* AlamofireImage in Frameworks */,
+				850DE1CC252C543700EDABCF /* XCDYouTubeKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +266,11 @@
 			dependencies = (
 			);
 			name = Movies;
+			packageProductDependencies = (
+				850DE1C1252C538300EDABCF /* Alamofire */,
+				850DE1C6252C53D100EDABCF /* AlamofireImage */,
+				850DE1CB252C543700EDABCF /* XCDYouTubeKit */,
+			);
 			productName = Movies;
 			productReference = 85190CBB252B57EC0038635E /* Movies.app */;
 			productType = "com.apple.product-type.application";
@@ -309,6 +320,11 @@
 				Base,
 			);
 			mainGroup = 85190CAE252B573D0038635E;
+			packageReferences = (
+				850DE1C0252C538300EDABCF /* XCRemoteSwiftPackageReference "Alamofire" */,
+				850DE1C5252C53D100EDABCF /* XCRemoteSwiftPackageReference "AlamofireImage" */,
+				850DE1CA252C543700EDABCF /* XCRemoteSwiftPackageReference "XCDYouTubeKit" */,
+			);
 			productRefGroup = 85190CBC252B57EC0038635E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1024,6 +1040,51 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		850DE1C0252C538300EDABCF /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.2.2;
+			};
+		};
+		850DE1C5252C53D100EDABCF /* XCRemoteSwiftPackageReference "AlamofireImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/AlamofireImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.1.0;
+			};
+		};
+		850DE1CA252C543700EDABCF /* XCRemoteSwiftPackageReference "XCDYouTubeKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/0xced/XCDYouTubeKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.14.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		850DE1C1252C538300EDABCF /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 850DE1C0252C538300EDABCF /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		850DE1C6252C53D100EDABCF /* AlamofireImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 850DE1C5252C53D100EDABCF /* XCRemoteSwiftPackageReference "AlamofireImage" */;
+			productName = AlamofireImage;
+		};
+		850DE1CB252C543700EDABCF /* XCDYouTubeKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 850DE1CA252C543700EDABCF /* XCRemoteSwiftPackageReference "XCDYouTubeKit" */;
+			productName = XCDYouTubeKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 85190CAF252B573D0038635E /* Project object */;
 }
