@@ -9,5 +9,5 @@ import Foundation
 
 protocol PosterService {
 
-    func getMoviePosterURL(_ movie: Movie, size: PosterSize) -> URL
+    func getMoviePosterURL(_ movie: Movie, size: PosterSize) -> URL?
 }

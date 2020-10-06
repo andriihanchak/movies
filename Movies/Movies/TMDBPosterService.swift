@@ -11,7 +11,10 @@ final class TMDBPosterService: PosterService {
     
     private let baseURL = URL(string: "https://image.tmdb.org")!
     
-    func getMoviePosterURL(_ movie: Movie, size: PosterSize) -> URL {
-        return baseURL.appendingPathComponent("/t/p/\(size.rawValue)\(movie.posterPath)")
+    func getMoviePosterURL(_ movie: Movie, size: PosterSize) -> URL? {
+        guard let posterPath = movie.posterPath
+        else { return nil }
+        
+        return baseURL.appendingPathComponent("/t/p/\(size.rawValue)\(posterPath)")
     }
 }
