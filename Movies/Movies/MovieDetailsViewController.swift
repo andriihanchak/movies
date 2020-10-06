@@ -5,47 +5,59 @@
 //  Created by Andrii Hanchak on 06.10.2020.
 //
 
+import RxCocoa
+import RxSwift
 import UIKit
 
 final class MovieDetailsViewController: UITableViewController {
     
-    var items: [MovieDetailsViewItem] = []
+    var viewModel: MovieDetailsViewModelType?
+    
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureUserInterface()
+        configureBindings()
+        
+        viewModel?.loadDetails()
+    }
+
+    private func configureBindings() {
+        viewModel?.items.bind(to: tableView.rx.items) { [weak self] (tableView, index, item) in
+            let indexPath = IndexPath(row: index, section: 0)
+            
+            switch item {
+            case let item as MovieDetailsViewMediaItem:
+                let cell = MovieDetailsViewMediaCell.dequeueReusableCell(from: tableView, at: indexPath)
+                
+                cell.configure(with: item)
+                cell.onWatchTrailer = { self?.viewModel?.watchTrailer() }
+                
+                return cell
+                
+            case let item as MovieDetailsViewTextItem:
+                let cell = MovieDetailsViewTextCell.dequeueReusableCell(from: tableView, at: indexPath)
+                
+                cell.configure(with: item)
+                
+                return cell
+                
+            default:
+                return .init()
+            }
+        }.disposed(by: disposeBag)
+        
+        viewModel?.title.bind(to: rx.title)
+            .disposed(by: disposeBag)
+    }
+    
+    private func configureUserInterface() {
+        tableView.dataSource = nil
+        tableView.delegate = nil
         tableView.estimatedRowHeight = 44
         tableView.rowHeight = UITableView.automaticDimension
         tableView.tableFooterView = .init()
-    }
-}
-
-extension MovieDetailsViewController {
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = items[indexPath.row]
-        
-        switch item {
-        case let item as MovieDetailsViewMediaItem:
-            let cell = MovieDetailsViewMediaCell.dequeueReusableCell(from: tableView, at: indexPath)
-            
-            cell.configure(with: item)
-            
-            return cell
-            
-        case let item as MovieDetailsViewTextItem:
-            let cell = MovieDetailsViewTextCell.dequeueReusableCell(from: tableView, at: indexPath)
-            
-            cell.configure(with: item)
-            
-            return cell
-            
-        default:
-            return .init()
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
     }
 }

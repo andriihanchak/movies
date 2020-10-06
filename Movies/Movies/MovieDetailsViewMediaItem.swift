@@ -10,6 +10,7 @@ import Foundation
 struct MovieDetailsViewMediaItem: MovieDetailsViewItem {
     
     let action: String
+    let actionEnabled: Bool
+    let posterURL: URL?
     let title: String
-    let imageName: String
 }

@@ -16,10 +16,13 @@ final class MoviesViewModel: MoviesViewModelType {
     }
     
     var title: Observable<String> { .just("Movies") }
+    
+    var onShowMovieDetailsView: Observable<Movie> { showMovieDetailsView.compactMap{ $0 }.asObservable()  }
 
     private let disposeBag = DisposeBag()
     private var movies: BehaviorRelay<[Movie]> = .init(value: [])
     private var page: Int = 1
+    private let showMovieDetailsView: BehaviorRelay<Movie?> = .init(value: nil)
     
     private let movieService: MovieService
     private let posterService: PosterService
@@ -41,7 +44,9 @@ final class MoviesViewModel: MoviesViewModelType {
     }
     
     func showDetails(forItemAt index: Int) {
+        let movie = movies.value[index]
         
+        showMovieDetailsView.accept(movie)
     }
     
     private func createMovieViewItem(from movie: Movie) -> MoviesViewItem {

@@ -39,11 +39,6 @@ final class MoviesViewController: UITableViewController {
             .subscribe(onNext: { [weak self] (indexPath) in
                 self?.tableView.deselectRow(at: indexPath, animated: true)
                 self?.viewModel?.showDetails(forItemAt: indexPath.row)
-                
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let viewController = storyboard.instantiateViewController(of: MovieDetailsViewController.self)
-                
-                self?.navigationController?.pushViewController(viewController, animated: true)
             }).disposed(by: disposeBag)
         
         viewModel?.items.bind(to: tableView.rx.items(cellIdentifier: MoviesViewCell.defaultReuseIdentifier,
