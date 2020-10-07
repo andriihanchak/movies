@@ -25,6 +25,17 @@ final class MovieDetailsViewController: UITableViewController {
     }
 
     private func configureBindings() {
+        if let refreshControl = refreshControl {
+            refreshControl.rx.controlEvent(.valueChanged)
+                .subscribe(onNext: { [weak self] in self?.viewModel?.loadDetails() })
+                .disposed(by: disposeBag)
+            
+            viewModel?.isLoading
+                .skip(2)
+                .bind(to: refreshControl.rx.isRefreshing)
+                .disposed(by: disposeBag)
+        }
+        
         viewModel?.items.bind(to: tableView.rx.items) { [weak self] (tableView, index, item) in
             let indexPath = IndexPath(row: index, section: 0)
             

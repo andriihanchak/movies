@@ -11,6 +11,8 @@ import RxSwift
 
 final class MoviesViewModel: MoviesViewModelType {
     
+    var isLoading: Observable<Bool> { loading.asObservable() }
+    
     var items: Observable<[MoviesViewItem]> {
         Observable.combineLatest(movies, filter)
             .map { (movies, filter) -> [Movie] in
@@ -28,6 +30,7 @@ final class MoviesViewModel: MoviesViewModelType {
 
     private let disposeBag = DisposeBag()
     private var filter: BehaviorRelay<String?> = .init(value: nil)
+    private let loading: BehaviorRelay<Bool> = .init(value: false)
     private var movies: BehaviorRelay<[Movie]> = .init(value: [])
     private var page: Int = 1
     private let showErrorView: BehaviorRelay<String?> = .init(value: nil)
@@ -45,10 +48,16 @@ final class MoviesViewModel: MoviesViewModelType {
         filter.accept(criteria)
     }
     
-    func load() {
+    func load(fromBeginning: Bool) {
         guard filter.value?.isEmpty == true
         else { return }
         
+        if fromBeginning {
+            loading.accept(true)
+            page = 1
+            movies.accept([])
+        }
+    
         movieService.getPopularMovies(page: page)
             .observeOn(MainScheduler.instance)
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
@@ -57,12 +66,14 @@ final class MoviesViewModel: MoviesViewModelType {
                 self.movies.accept(self.movies.value + popularMovies.results)
                 self.page = popularMovies.page + 1
             }, onError: { [weak self] (error) in
+                self?.loading.accept(false)
+                
                 if case Error.getPopularMovies = error {
                     self?.showErrorView.accept("Couldn't get movies. Please, try again.")
                 } else {
                     self?.showErrorView.accept("Something went wrong. Please, try again.")
                 }
-            }).disposed(by: disposeBag)
+            }, onCompleted: { [weak self] in self?.loading.accept(false) }).disposed(by: disposeBag)
     }
     
     func showDetails(forItemAt index: Int) {

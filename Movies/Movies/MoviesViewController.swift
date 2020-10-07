@@ -20,6 +20,7 @@ final class MoviesViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     
     private lazy var placeholderView: MoviesPlaceholderView = .instantiateFromNib()
+    private lazy var refreshControl: UIRefreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +28,7 @@ final class MoviesViewController: UIViewController {
         configureUserInterface()
         configureBindings()
         
-        viewModel?.load()
+        viewModel?.load(fromBeginning: true)
     }
     
     private func configureBindings() {
@@ -42,9 +43,19 @@ final class MoviesViewController: UIViewController {
             .compactMap { _ in 0 }
             .bind(to: searchBarBottomConstraint.rx.constant)
             .disposed(by: disposeBag)
+    
+        refreshControl.rx.controlEvent(.valueChanged)
+            .subscribe(onNext: { [weak self] in self?.viewModel?.load(fromBeginning: true) })
+            .disposed(by: disposeBag)
         
         searchBar.rx.textDidBeginEditing
-            .subscribe(onNext: { [weak self] in self?.searchBar.setShowsCancelButton(true, animated: true) })
+            .subscribe(onNext: { [weak self] in
+                        self?.searchBar.setShowsCancelButton(true, animated: true)
+                        self?.tableView.refreshControl = nil })
+            .disposed(by: disposeBag)
+        
+        searchBar.rx.textDidEndEditing
+            .subscribe(onNext: { [weak self] in self?.tableView.refreshControl = self?.refreshControl })
             .disposed(by: disposeBag)
         
         searchBar.rx.cancelButtonClicked
@@ -71,10 +82,16 @@ final class MoviesViewController: UIViewController {
             .compactMap { [weak self] (offset) -> Bool? in
                 guard let tableView = self?.tableView
                 else { return false }
-                return tableView.contentOffset.y >= (tableView.contentSize.height - tableView.frame.size.height)
+                return tableView.contentOffset.y > 0 &&
+                    tableView.contentOffset.y >= (tableView.contentSize.height - tableView.frame.size.height)
             }.skip(2)
             .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] (loadMore) in loadMore ? self?.viewModel?.load() : () })
+            .subscribe(onNext: { [weak self] (loadMore) in loadMore ? self?.viewModel?.load(fromBeginning: false) : () })
+            .disposed(by: disposeBag)
+        
+        viewModel?.isLoading
+            .skip(2)
+            .bind(to: refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
         
         tableView.rx.itemSelected
@@ -107,5 +124,6 @@ final class MoviesViewController: UIViewController {
         tableView.tableFooterView = .init(frame: .zero)
         
         tableView.backgroundView = placeholderView
+        tableView.refreshControl = refreshControl
     }
 }
