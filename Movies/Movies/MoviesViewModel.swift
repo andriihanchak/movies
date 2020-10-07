@@ -23,12 +23,14 @@ final class MoviesViewModel: MoviesViewModelType {
     
     var title: Observable<String> { .just("Movies") }
     
-    var onShowMovieDetailsView: Observable<Movie> { showMovieDetailsView.compactMap{ $0 }.asObservable()  }
+    var onShowErrorView: Observable<String> {  showErrorView.compactMap { $0 } }
+    var onShowMovieDetailsView: Observable<Movie> { showMovieDetailsView.compactMap{ $0 }  }
 
     private let disposeBag = DisposeBag()
     private var filter: BehaviorRelay<String?> = .init(value: nil)
     private var movies: BehaviorRelay<[Movie]> = .init(value: [])
     private var page: Int = 1
+    private let showErrorView: BehaviorRelay<String?> = .init(value: nil)
     private let showMovieDetailsView: BehaviorRelay<Movie?> = .init(value: nil)
     
     private let movieService: MovieService
@@ -54,6 +56,12 @@ final class MoviesViewModel: MoviesViewModelType {
                 guard let self = self else { return }
                 self.movies.accept(self.movies.value + popularMovies.results)
                 self.page = popularMovies.page + 1
+            }, onError: { [weak self] (error) in
+                if case Error.getPopularMovies = error {
+                    self?.showErrorView.accept("Couldn't get movies. Please, try again.")
+                } else {
+                    self?.showErrorView.accept("Something went wrong. Please, try again.")
+                }
             }).disposed(by: disposeBag)
     }
     

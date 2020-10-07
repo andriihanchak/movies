@@ -26,6 +26,10 @@ final class MoviesViewCoordinator: Coordinator {
         let navigationController = storyboard.instantiateInitialViewController() as? UINavigationController
         let viewController = navigationController?.topViewController as? MoviesViewController
         
+        viewModel.onShowErrorView
+            .subscribe(onNext: { [weak self] (message) in self?.appContext.snackbarController.showMessage(message) })
+            .disposed(by: disposeBag)
+        
         viewModel.onShowMovieDetailsView
             .subscribe(onNext: { [weak self] (movie) in self?.showMovieDetailsView(for: movie) })
             .disposed(by: disposeBag)

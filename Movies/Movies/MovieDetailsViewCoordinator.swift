@@ -37,6 +37,10 @@ final class MovieDetailsViewCoordinator: Coordinator {
             .subscribe(onNext: { [weak self] in self?.finish() })
             .disposed(by: disposeBag)
         
+        viewModel.onShowErrorView
+            .subscribe(onNext: { [weak self] (message) in self?.appContext.snackbarController.showMessage(message) })
+            .disposed(by: disposeBag)
+        
         viewModel.onShowPlayerView
             .subscribe(onNext: { [weak self] (url) in
                         self?.showPlayerView(with: url) })
