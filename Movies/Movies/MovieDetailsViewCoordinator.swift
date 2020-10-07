@@ -28,13 +28,17 @@ final class MovieDetailsViewCoordinator: Coordinator {
         guard let viewController = storyboard.instantiateViewController(withIdentifier: MovieDetailsViewController.defaultStoryboardIdentifier) as? MovieDetailsViewController
         else { return }
         
-        let viewModel = MovieDetailsViewModel(movie: movie, movieService: appContext.tmdbMovieService, posterService: appContext.tmdbPosterService, trailerService: appContext.xcdYoutubeService)
+        let viewModel = MovieDetailsViewModel(movie: movie, movieService: appContext.movieService, posterService: appContext.posterService, trailerService: appContext.trailerService)
         
         viewController.viewModel = viewModel
         
         viewModel.onDeinitialize
             .skip(1)
             .subscribe(onNext: { [weak self] in self?.finish() })
+            .disposed(by: disposeBag)
+        
+        viewModel.onShowErrorView
+            .subscribe(onNext: { [weak self] (message) in self?.appContext.snackbarController.showMessage(message) })
             .disposed(by: disposeBag)
         
         viewModel.onShowPlayerView

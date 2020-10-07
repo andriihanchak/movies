@@ -12,16 +12,25 @@ import RxSwift
 final class MoviesViewModel: MoviesViewModelType {
     
     var items: Observable<[MoviesViewItem]> {
-        return movies.map { $0.compactMap { (movie) in self.createMovieViewItem(from: movie) } }
+        Observable.combineLatest(movies, filter)
+            .map { (movies, filter) -> [Movie] in
+                guard let filter = filter, !filter.isEmpty
+                else { return movies }
+                return movies.filter { (movie) in movie.title.lowercased().contains(filter.lowercased()) } }
+            .map { $0.compactMap { (movie) in self.createMovieViewItem(from: movie) } }
+            .asObservable()
     }
     
     var title: Observable<String> { .just("Movies") }
     
-    var onShowMovieDetailsView: Observable<Movie> { showMovieDetailsView.compactMap{ $0 }.asObservable()  }
+    var onShowErrorView: Observable<String> {  showErrorView.compactMap { $0 } }
+    var onShowMovieDetailsView: Observable<Movie> { showMovieDetailsView.compactMap{ $0 }  }
 
     private let disposeBag = DisposeBag()
+    private var filter: BehaviorRelay<String?> = .init(value: nil)
     private var movies: BehaviorRelay<[Movie]> = .init(value: [])
     private var page: Int = 1
+    private let showErrorView: BehaviorRelay<String?> = .init(value: nil)
     private let showMovieDetailsView: BehaviorRelay<Movie?> = .init(value: nil)
     
     private let movieService: MovieService
@@ -32,7 +41,14 @@ final class MoviesViewModel: MoviesViewModelType {
         self.posterService = posterService
     }
     
+    func filter(with criteria: String?) {
+        filter.accept(criteria)
+    }
+    
     func load() {
+        guard filter.value?.isEmpty == true
+        else { return }
+        
         movieService.getPopularMovies(page: page)
             .observeOn(MainScheduler.instance)
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
@@ -40,6 +56,12 @@ final class MoviesViewModel: MoviesViewModelType {
                 guard let self = self else { return }
                 self.movies.accept(self.movies.value + popularMovies.results)
                 self.page = popularMovies.page + 1
+            }, onError: { [weak self] (error) in
+                if case Error.getPopularMovies = error {
+                    self?.showErrorView.accept("Couldn't get movies. Please, try again.")
+                } else {
+                    self?.showErrorView.accept("Something went wrong. Please, try again.")
+                }
             }).disposed(by: disposeBag)
     }
     

@@ -9,11 +9,15 @@ import RxCocoa
 import RxSwift
 import UIKit
 
-final class MoviesViewController: UITableViewController {
+final class MoviesViewController: UIViewController {
     
     var viewModel: MoviesViewModelType?
     
     private let disposeBag = DisposeBag()
+    
+    @IBOutlet private weak var searchBar: UISearchBar!
+    @IBOutlet private weak var searchBarBottomConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +29,26 @@ final class MoviesViewController: UITableViewController {
     }
     
     private func configureBindings() {
+        NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
+            .compactMap { $0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue }
+            .compactMap { $0.cgRectValue }
+            .compactMap { $0.size.height }
+            .bind(to: searchBarBottomConstraint.rx.constant)
+            .disposed(by: disposeBag)
+        
+        NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
+            .compactMap { _ in 0 }
+            .bind(to: searchBarBottomConstraint.rx.constant)
+            .disposed(by: disposeBag)
+        
+        searchBar.rx.cancelButtonClicked
+            .subscribe(onNext: { [weak self] in self?.view.endEditing(true) })
+            .disposed(by: disposeBag)
+        
+        searchBar.rx.text
+            .subscribe(onNext: { [weak self] (text) in self?.viewModel?.filter(with: text) })
+            .disposed(by: disposeBag)
+        
         tableView.rx.contentOffset
             .compactMap { [weak self] (offset) -> Bool? in
                 guard let tableView = self?.tableView
@@ -51,8 +75,10 @@ final class MoviesViewController: UITableViewController {
     }
     
     private func configureUserInterface() {
-        tableView.dataSource = nil
-        tableView.delegate = nil
+        searchBar.backgroundColor = .gray
+        searchBar.placeholder = "Search"
+        searchBar.showsCancelButton = true
+        
         tableView.rowHeight = 100
         tableView.tableFooterView = .init(frame: .zero)
     }

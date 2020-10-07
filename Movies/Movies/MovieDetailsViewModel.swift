@@ -11,10 +11,14 @@ import RxSwift
 
 final class MovieDetailsViewModel: MovieDetailsViewModelType {
     
-    var items: Observable<[MovieDetailsViewItem]> { movie.map { self.createItems(from: $0) } }
+    var items: Observable<[MovieDetailsViewItem]> {
+        return Observable.combineLatest(movie, trailerURL).map { self.createItems(from: $0.0) }
+    }
+    
     var title: Observable<String> { .just("Movie Details") }
     
     var onDeinitialize: Observable<Void> { deinitialize.asObservable() }
+    var onShowErrorView: Observable<String> {  showErrorView.compactMap { $0 } }
     var onShowPlayerView: Observable<URL> { showPlayerView.compactMap { $0 } }
     
     static private let dateFormatter = DateFormatter()
@@ -22,6 +26,7 @@ final class MovieDetailsViewModel: MovieDetailsViewModelType {
     private let deinitialize: BehaviorRelay<Void> = .init(value: ())
     private let disposeBag = DisposeBag()
     private let movie: BehaviorRelay<Movie>
+    private let showErrorView: BehaviorRelay<String?> = .init(value: nil)
     private let showPlayerView: BehaviorRelay<URL?> = .init(value: nil)
     private let trailerURL: BehaviorRelay<URL?> = .init(value: nil)
     
@@ -47,7 +52,20 @@ final class MovieDetailsViewModel: MovieDetailsViewModelType {
         Observable.combineLatest(getMovieDetails, getMovieVideos)
             .observeOn(MainScheduler.instance)
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .subscribe { [weak self] (movie, videos) in self?.updateMovie(movie: movie, videos: videos) }
+            .subscribe(onNext: { [weak self] (movie, videos) in self?.updateMovie(movie: movie, videos: videos) },
+                       onError: { [weak self] (error) in
+                        switch error {
+                        case Error.getMovieDetails(_):
+                            self?.showErrorView.accept("Couldn't get some movie details. Please, try again.")
+                            
+                        case Error.getMovieVideos(_):
+                            self?.trailerURL.accept(nil)
+                            self?.showErrorView.accept("Couldn't get movie trailer. Please, try again.")
+                            
+                        default:
+                            self?.showErrorView.accept("Something went wrong. Please, try again.")
+                        }
+                       })
             .disposed(by: disposeBag)
     }
     

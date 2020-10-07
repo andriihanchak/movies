@@ -35,7 +35,10 @@ final class MovieDetailsViewMediaCell: UITableViewCell {
     func configure(with item: MovieDetailsViewMediaItem) {
         movieImageView?.sd_setImage(with: item.posterURL, placeholderImage: placeholderImage())
         movieTitleLabel.text = item.title
+        watchTrailerButton.isEnabled = item.actionEnabled
         watchTrailerButton.setTitle(item.action, for: .normal)
+        watchTrailerButton.setTitleColor(.black, for: .normal)
+        watchTrailerButton.setTitleColor(.gray, for: .disabled)
     }
     
     @IBAction private func watchTrailer(_ sender: UIButton) {
