@@ -12,4 +12,5 @@ enum Error: Swift.Error {
     case getMovieDetails(_ movie: Movie)
     case getMovieVideos(_ movie: Movie)
     case getPopularMovies
+    case notConnectedToInternet
 }

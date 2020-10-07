@@ -68,9 +68,14 @@ final class MoviesViewModel: MoviesViewModelType {
             }, onError: { [weak self] (error) in
                 self?.loading.accept(false)
                 
-                if case Error.getPopularMovies = error {
+                switch error {
+                case Error.getPopularMovies:
                     self?.showErrorView.accept("Couldn't get movies. Please, try again.")
-                } else {
+                    
+                case Error.notConnectedToInternet:
+                    self?.showErrorView.accept("No network connection. Please, try again.")
+                    
+                default:
                     self?.showErrorView.accept("Something went wrong. Please, try again.")
                 }
             }, onCompleted: { [weak self] in self?.loading.accept(false) }).disposed(by: disposeBag)

@@ -69,6 +69,9 @@ final class MovieDetailsViewModel: MovieDetailsViewModelType {
                             self?.trailerURL.accept(nil)
                             self?.showErrorView.accept("Couldn't get movie trailer. Please, try again.")
                             
+                        case Error.notConnectedToInternet:
+                            self?.showErrorView.accept("No network connection. Please, try again.")
+                            
                         default:
                             self?.showErrorView.accept("Something went wrong. Please, try again.")
                         }
