@@ -11,7 +11,8 @@ final class AppContext {
     
     static private let apiKey: String = "a1e056dea0a509bddb7fe240ec34b26f"
     
-    let tmdbMovieService = TMDBMovieService(apiKey: apiKey)
-    let tmdbPosterService = TMDBPosterService()
-    let xcdYoutubeService = XCDYouTubeService()
+    let movieService: MovieService = TMDBMovieService(apiKey: apiKey)
+    let networkReachibilityService: NetworkReachbilityService = AlamofireNetworkReachibilityService()
+    let posterService: PosterService = TMDBPosterService()
+    let trailerService: TrailerService = XCDYouTubeService()
 }

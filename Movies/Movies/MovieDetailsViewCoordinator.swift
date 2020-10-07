@@ -28,7 +28,7 @@ final class MovieDetailsViewCoordinator: Coordinator {
         guard let viewController = storyboard.instantiateViewController(withIdentifier: MovieDetailsViewController.defaultStoryboardIdentifier) as? MovieDetailsViewController
         else { return }
         
-        let viewModel = MovieDetailsViewModel(movie: movie, movieService: appContext.tmdbMovieService, posterService: appContext.tmdbPosterService, trailerService: appContext.xcdYoutubeService)
+        let viewModel = MovieDetailsViewModel(movie: movie, movieService: appContext.movieService, posterService: appContext.posterService, trailerService: appContext.trailerService)
         
         viewController.viewModel = viewModel
         
