@@ -19,6 +19,8 @@ final class MoviesViewController: UIViewController {
     @IBOutlet private weak var searchBarBottomConstraint: NSLayoutConstraint!
     @IBOutlet private weak var tableView: UITableView!
     
+    private lazy var placeholderView: MoviesPlaceholderView = .instantiateFromNib()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,12 +43,28 @@ final class MoviesViewController: UIViewController {
             .bind(to: searchBarBottomConstraint.rx.constant)
             .disposed(by: disposeBag)
         
+        searchBar.rx.textDidBeginEditing
+            .subscribe(onNext: { [weak self] in self?.searchBar.setShowsCancelButton(true, animated: true) })
+            .disposed(by: disposeBag)
+        
         searchBar.rx.cancelButtonClicked
-            .subscribe(onNext: { [weak self] in self?.view.endEditing(true) })
+            .subscribe(onNext: { [weak self] in
+                        self?.searchBar.text = nil
+                        self?.searchBar.setShowsCancelButton(false, animated: true)
+                        self?.view.endEditing(true) })
+            .disposed(by: disposeBag)
+        
+        searchBar.rx.cancelButtonClicked
+            .subscribe(onNext: { [weak self] in self?.placeholderView.configure(with: "Mo movies yet.") })
             .disposed(by: disposeBag)
         
         searchBar.rx.text
             .subscribe(onNext: { [weak self] (text) in self?.viewModel?.filter(with: text) })
+            .disposed(by: disposeBag)
+        
+        searchBar.rx.text
+            .compactMap { (text) in text?.isEmpty == true ? "No movies yet." : "Nothing found." }
+            .subscribe(onNext: { [weak self] (text) in self?.placeholderView.configure(with: text) })
             .disposed(by: disposeBag)
         
         tableView.rx.contentOffset
@@ -70,16 +88,24 @@ final class MoviesViewController: UIViewController {
             cell.configure(with: item)
         }.disposed(by: disposeBag)
         
+        viewModel?.items.compactMap { !$0.isEmpty }
+            .bind(to: tableView.backgroundView!.rx.isHidden)
+            .disposed(by: disposeBag)
+        
         viewModel?.title.bind(to: rx.title)
             .disposed(by: disposeBag)
     }
     
     private func configureUserInterface() {
+        navigationController?.navigationBar.tintColor = .black
+        
         searchBar.backgroundColor = .gray
         searchBar.placeholder = "Search"
-        searchBar.showsCancelButton = true
+        searchBar.tintColor = .black
         
         tableView.rowHeight = 100
         tableView.tableFooterView = .init(frame: .zero)
+        
+        tableView.backgroundView = placeholderView
     }
 }
