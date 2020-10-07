@@ -9,25 +9,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Movie Catalog-->
-        <scene sceneID="gM5-Ra-q10">
-            <objects>
-                <tableViewController useStoryboardIdentifierAsRestorationIdentifier="YES" id="bfL-Y6-3Ag" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="5FY-rC-PUW">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <connections>
-                            <outlet property="dataSource" destination="bfL-Y6-3Ag" id="UQ7-Ld-IjS"/>
-                            <outlet property="delegate" destination="bfL-Y6-3Ag" id="JgG-ww-uzH"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Movie Catalog" id="KXY-hY-8mz"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bfE-Ki-Q2p" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1260.8695652173915" y="110.49107142857143"/>
-        </scene>
         <!--Movies View Controller-->
         <scene sceneID="hRl-Ri-XS4">
             <objects>
@@ -108,7 +89,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GfS-3o-lgX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1260" y="853.22338830584715"/>
+            <point key="canvasLocation" x="1271" y="110"/>
         </scene>
         <!--Movie Details-->
         <scene sceneID="Jgu-k7-DiD">
