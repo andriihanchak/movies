@@ -22,6 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         coordinator = MoviesViewCoordinator(window: window, appContext: appContext)
         coordinator?.start()
         
+        if let window = window {
+            appContext.snackbarController.initialize(with: window)
+        }
+        
         return true
     }
     
