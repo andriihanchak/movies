@@ -16,7 +16,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="{Message}" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J12-SO-x99">
-                    <rect key="frame" x="16" y="8" width="343" height="28"/>
+                    <rect key="frame" x="16" y="16" width="343" height="12"/>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
@@ -25,16 +25,16 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemRedColor"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="J12-SO-x99" secondAttribute="bottom" constant="8" id="6ax-UQ-v0O"/>
+                <constraint firstItem="J12-SO-x99" firstAttribute="centerY" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="centerY" id="GIW-xE-icp"/>
                 <constraint firstItem="J12-SO-x99" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="d9M-DR-XpJ"/>
-                <constraint firstItem="J12-SO-x99" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="8" id="sqx-Nx-RUx"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="J12-SO-x99" secondAttribute="bottom" constant="16" id="dg6-1n-9Ez"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="J12-SO-x99" secondAttribute="trailing" constant="16" id="vPX-yg-ach"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="label" destination="J12-SO-x99" id="CmC-b4-DD8"/>
             </connections>
-            <point key="canvasLocation" x="25" y="63"/>
+            <point key="canvasLocation" x="24.800000000000001" y="62.968515742128943"/>
         </view>
     </objects>
     <resources>
