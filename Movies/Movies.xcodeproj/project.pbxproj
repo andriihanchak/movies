@@ -10,8 +10,8 @@
 		850DE18A252C4EA700EDABCF /* UITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850DE189252C4EA700EDABCF /* UITableViewCell.swift */; };
 		850DE1AA252C512800EDABCF /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850DE1A9252C512800EDABCF /* UIViewController.swift */; };
 		850DE1AE252C515200EDABCF /* UIStoryboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850DE1AD252C515200EDABCF /* UIStoryboard.swift */; };
-		850DE1C2252C538300EDABCF /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 850DE1C1252C538300EDABCF /* SwiftPackageProductDependency */; };
-		850DE1CC252C543700EDABCF /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 850DE1CB252C543700EDABCF /* SwiftPackageProductDependency */; };
+		850DE1C2252C538300EDABCF /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 850DE1C1252C538300EDABCF /* Alamofire */; };
+		850DE1CC252C543700EDABCF /* XCDYouTubeKit in Frameworks */ = {isa = PBXBuildFile; productRef = 850DE1CB252C543700EDABCF /* XCDYouTubeKit */; };
 		850DE1D3252C54D700EDABCF /* TMDBMovieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850DE1D2252C54D700EDABCF /* TMDBMovieService.swift */; };
 		850DE1DA252C5F0500EDABCF /* TMDBPopularMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850DE1D9252C5F0500EDABCF /* TMDBPopularMovie.swift */; };
 		850DE1DE252C5F1900EDABCF /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850DE1DD252C5F1900EDABCF /* Movie.swift */; };
@@ -51,7 +51,7 @@
 		85CAF1EA252DCEB2006C4944 /* MoviesPlaceholerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CAF1E9252DCEB2006C4944 /* MoviesPlaceholerView.swift */; };
 		85CAF1EE252DCEDF006C4944 /* MoviesPlaceholderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85CAF1ED252DCEDF006C4944 /* MoviesPlaceholderView.xib */; };
 		85D97B89252C98B70043F985 /* MoviesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D97B88252C98B70043F985 /* MoviesViewModel.swift */; };
-		85D97B8E252CA89E0043F985 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 85D97B8D252CA89E0043F985 /* SwiftPackageProductDependency */; };
+		85D97B8E252CA89E0043F985 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 85D97B8D252CA89E0043F985 /* SDWebImage */; };
 		85D97B92252CB1EC0043F985 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D97B91252CB1EC0043F985 /* Error.swift */; };
 		85D97B96252CB4010043F985 /* PosterSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D97B95252CB4010043F985 /* PosterSize.swift */; };
 		85D97B9F252CB5420043F985 /* MoviesViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D97B9E252CB5410043F985 /* MoviesViewModelType.swift */; };
@@ -156,9 +156,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				85D97B8E252CA89E0043F985 /* BuildFile in Frameworks */,
-				850DE1C2252C538300EDABCF /* BuildFile in Frameworks */,
-				850DE1CC252C543700EDABCF /* BuildFile in Frameworks */,
+				85D97B8E252CA89E0043F985 /* SDWebImage in Frameworks */,
+				850DE1C2252C538300EDABCF /* Alamofire in Frameworks */,
+				850DE1CC252C543700EDABCF /* XCDYouTubeKit in Frameworks */,
 				FB3D012700F0A825D03568B6 /* Pods_Movies.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -186,7 +186,6 @@
 				38CAB5424593BA75D11F7EB7 /* Pods-MoviesTests.beta.xcconfig */,
 				B9F60AD9B95824439CE28A25 /* Pods-MoviesTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -557,9 +556,9 @@
 			);
 			name = Movies;
 			packageProductDependencies = (
-				850DE1C1252C538300EDABCF /* SwiftPackageProductDependency */,
-				850DE1CB252C543700EDABCF /* SwiftPackageProductDependency */,
-				85D97B8D252CA89E0043F985 /* SwiftPackageProductDependency */,
+				850DE1C1252C538300EDABCF /* Alamofire */,
+				850DE1CB252C543700EDABCF /* XCDYouTubeKit */,
+				85D97B8D252CA89E0043F985 /* SDWebImage */,
 			);
 			productName = Movies;
 			productReference = 85190CBB252B57EC0038635E /* Movies.app */;
@@ -613,9 +612,9 @@
 			);
 			mainGroup = 85190CAE252B573D0038635E;
 			packageReferences = (
-				850DE1C0252C538300EDABCF /* RemoteSwiftPackageReference */,
-				850DE1CA252C543700EDABCF /* RemoteSwiftPackageReference */,
-				85D97B8C252CA89E0043F985 /* RemoteSwiftPackageReference */,
+				850DE1C0252C538300EDABCF /* XCRemoteSwiftPackageReference "Alamofire" */,
+				850DE1CA252C543700EDABCF /* XCRemoteSwiftPackageReference "XCDYouTubeKit" */,
+				85D97B8C252CA89E0043F985 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 			);
 			productRefGroup = 85190CBC252B57EC0038635E /* Products */;
 			projectDirPath = "";
@@ -1464,7 +1463,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		850DE1C0252C538300EDABCF /* RemoteSwiftPackageReference */ = {
+		850DE1C0252C538300EDABCF /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -1472,7 +1471,7 @@
 				minimumVersion = 5.2.2;
 			};
 		};
-		850DE1CA252C543700EDABCF /* RemoteSwiftPackageReference */ = {
+		850DE1CA252C543700EDABCF /* XCRemoteSwiftPackageReference "XCDYouTubeKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/0xced/XCDYouTubeKit.git";
 			requirement = {
@@ -1480,7 +1479,7 @@
 				minimumVersion = 2.14.1;
 			};
 		};
-		85D97B8C252CA89E0043F985 /* RemoteSwiftPackageReference */ = {
+		85D97B8C252CA89E0043F985 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
 			requirement = {
@@ -1491,19 +1490,19 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		850DE1C1252C538300EDABCF /* SwiftPackageProductDependency */ = {
+		850DE1C1252C538300EDABCF /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 850DE1C0252C538300EDABCF /* RemoteSwiftPackageReference */;
+			package = 850DE1C0252C538300EDABCF /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
-		850DE1CB252C543700EDABCF /* SwiftPackageProductDependency */ = {
+		850DE1CB252C543700EDABCF /* XCDYouTubeKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 850DE1CA252C543700EDABCF /* RemoteSwiftPackageReference */;
+			package = 850DE1CA252C543700EDABCF /* XCRemoteSwiftPackageReference "XCDYouTubeKit" */;
 			productName = XCDYouTubeKit;
 		};
-		85D97B8D252CA89E0043F985 /* SwiftPackageProductDependency */ = {
+		85D97B8D252CA89E0043F985 /* SDWebImage */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 85D97B8C252CA89E0043F985 /* RemoteSwiftPackageReference */;
+			package = 85D97B8C252CA89E0043F985 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
 		};
 /* End XCSwiftPackageProductDependency section */
