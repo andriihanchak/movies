@@ -29,9 +29,9 @@ final class TMDBMovieService: MovieService {
                 case let .failure(error):
                     if case AFError.sessionTaskFailed(let urlError) = error,
                        let error = urlError as? URLError, error.code == URLError.Code.notConnectedToInternet {
-                        promise(.error(Error.notConnectedToInternet))
+                        promise(.failure(Error.notConnectedToInternet))
                     } else {
-                        promise(.error(Error.getMovieDetails(movie)))
+                        promise(.failure(Error.getMovieDetails(movie)))
                     }
                     
                 case let .success(movie):
@@ -55,9 +55,9 @@ final class TMDBMovieService: MovieService {
                 case let .failure(error):
                     if case AFError.sessionTaskFailed(let urlError) = error,
                        let error = urlError as? URLError, error.code == URLError.Code.notConnectedToInternet {
-                        promise(.error(Error.notConnectedToInternet))
+                        promise(.failure(Error.notConnectedToInternet))
                     } else {
-                        promise(.error(Error.getMovieVideos(movie)))
+                        promise(.failure(Error.getMovieVideos(movie)))
                     }
                     
                 case let .success(response):
@@ -85,9 +85,9 @@ final class TMDBMovieService: MovieService {
                 case let .failure(error):
                     if case AFError.sessionTaskFailed(let urlError) = error,
                        let error = urlError as? URLError, error.code == URLError.Code.notConnectedToInternet {
-                        promise(.error(Error.notConnectedToInternet))
+                        promise(.failure(Error.notConnectedToInternet))
                     } else {
-                        promise(.error(Error.getPopularMovies))
+                        promise(.failure(Error.getPopularMovies))
                     }
                     
                 case let .success(popularMovies):

@@ -55,8 +55,8 @@ final class MovieDetailsViewModel: MovieDetailsViewModelType {
         loading.accept(true)
         
         Observable.combineLatest(getMovieDetails, getMovieVideos)
-            .observeOn(MainScheduler.instance)
-            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .observe(on: MainScheduler.instance)
+            .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
             .subscribe(onNext: { [weak self] (movie, videos) in self?.updateMovie(movie: movie, videos: videos) },
                        onError: { [weak self] (error) in
                         self?.loading.accept(false)
