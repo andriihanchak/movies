@@ -11,8 +11,8 @@ class Coordinator: CoordinatorType, CoordinatorDelegate {
    
     final weak var delegate: CoordinatorDelegate?
     
-    final let id = UUID()
-    final private var coordinators = [UUID: CoordinatorType]()
+    final let id: UUID = UUID()
+    final private var coordinators: [UUID: CoordinatorType] = [:]
     
     func start() {
         fatalError("This method must be implemented by a subclass.")

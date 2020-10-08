@@ -13,7 +13,7 @@ final class MovieDetailsViewController: UITableViewController {
     
     var viewModel: MovieDetailsViewModelType?
     
-    private let disposeBag = DisposeBag()
+    private let disposeBag: DisposeBag = DisposeBag()
     private var rowHeight: CGFloat = UITableView.automaticDimension
     
     override func viewDidLoad() {

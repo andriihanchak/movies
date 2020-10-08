@@ -11,7 +11,7 @@ import UIKit
 final class MoviesViewCoordinator: Coordinator {
     
     private let appContext: AppContext
-    private let disposeBag = DisposeBag()
+    private let disposeBag: DisposeBag = DisposeBag()
     private var window: UIWindow?
     
     init(window: UIWindow?, appContext: AppContext) {

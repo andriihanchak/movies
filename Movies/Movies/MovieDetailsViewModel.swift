@@ -23,15 +23,15 @@ final class MovieDetailsViewModel: MovieDetailsViewModelType {
     var onShowErrorView: Observable<String> {  showErrorView.compactMap { $0 } }
     var onShowPlayerView: Observable<URL> { showPlayerView.compactMap { $0 } }
     
-    static private let dateFormatter = DateFormatter()
+    static private let dateFormatter: DateFormatter = DateFormatter()
     
-    private let deinitialize: BehaviorRelay<Void> = .init(value: ())
-    private let disposeBag = DisposeBag()
-    private let loading: BehaviorRelay<Bool> = .init(value: false)
+    private let deinitialize: BehaviorRelay<Void> = BehaviorRelay(value: ())
+    private let disposeBag: DisposeBag = DisposeBag()
+    private let loading: BehaviorRelay<Bool> = BehaviorRelay(value: false)
     private let movie: BehaviorRelay<Movie>
-    private let showErrorView: BehaviorRelay<String?> = .init(value: nil)
-    private let showPlayerView: BehaviorRelay<URL?> = .init(value: nil)
-    private let trailerURL: BehaviorRelay<URL?> = .init(value: nil)
+    private let showErrorView: BehaviorRelay<String?> = BehaviorRelay(value: nil)
+    private let showPlayerView: BehaviorRelay<URL?> = BehaviorRelay(value: nil)
+    private let trailerURL: BehaviorRelay<URL?> = BehaviorRelay(value: nil)
     
     private let movieService: MovieService
     private let posterService: PosterService

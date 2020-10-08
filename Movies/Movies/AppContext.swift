@@ -16,5 +16,5 @@ final class AppContext {
     let posterService: PosterService = TMDBPosterService()
     let trailerService: TrailerService = XCDYouTubeService()
     
-    private(set) lazy var snackbarController: SnackbarController = .init(networkReachabilityService: networkReachibilityService)
+    private(set) lazy var snackbarController: SnackbarController = SnackbarController(networkReachabilityService: networkReachibilityService)
 }

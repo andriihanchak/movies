@@ -28,13 +28,13 @@ final class MoviesViewModel: MoviesViewModelType {
     var onShowErrorView: Observable<String> {  showErrorView.compactMap { $0 } }
     var onShowMovieDetailsView: Observable<Movie> { showMovieDetailsView.compactMap{ $0 }  }
 
-    private let disposeBag = DisposeBag()
-    private var filter: BehaviorRelay<String?> = .init(value: nil)
-    private let loading: BehaviorRelay<Bool> = .init(value: false)
-    private var movies: BehaviorRelay<[Movie]> = .init(value: [])
+    private let disposeBag: DisposeBag = DisposeBag()
+    private var filter: BehaviorRelay<String?> = BehaviorRelay(value: nil)
+    private let loading: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    private var movies: BehaviorRelay<[Movie]> = BehaviorRelay(value: [])
     private var page: Int = 1
-    private let showErrorView: BehaviorRelay<String?> = .init(value: nil)
-    private let showMovieDetailsView: BehaviorRelay<Movie?> = .init(value: nil)
+    private let showErrorView: BehaviorRelay<String?> = BehaviorRelay(value: nil)
+    private let showMovieDetailsView: BehaviorRelay<Movie?> = BehaviorRelay(value: nil)
     
     private let movieService: MovieService
     private let posterService: PosterService
