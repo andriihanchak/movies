@@ -59,8 +59,8 @@ final class MoviesViewModel: MoviesViewModelType {
         }
     
         movieService.getPopularMovies(page: page)
-            .observeOn(MainScheduler.instance)
-            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .observe(on: MainScheduler.instance)
+            .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
             .subscribe(onNext: { [weak self] (popularMovies) in
                 guard let self = self else { return }
                 self.movies.accept(self.movies.value + popularMovies.results)
