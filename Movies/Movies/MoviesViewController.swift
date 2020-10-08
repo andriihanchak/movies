@@ -66,7 +66,7 @@ final class MoviesViewController: UIViewController {
             .disposed(by: disposeBag)
         
         searchBar.rx.cancelButtonClicked
-            .subscribe(onNext: { [weak self] in self?.placeholderView.configure(with: "Mo movies yet.") })
+            .subscribe(onNext: { [weak self] in self?.placeholderView.configure(with: "No movies yet.") })
             .disposed(by: disposeBag)
         
         searchBar.rx.text
@@ -94,6 +94,11 @@ final class MoviesViewController: UIViewController {
             .bind(to: refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
         
+        viewModel?.isLoading.filter { $0 }
+            .take(1)
+            .subscribe(onNext: { [weak self] _ in self?.placeholderView.configure(with: "Loading movies...") } )
+            .disposed(by: disposeBag)
+        
         tableView.rx.itemSelected
             .subscribe(onNext: { [weak self] (indexPath) in
                 self?.tableView.deselectRow(at: indexPath, animated: true)
@@ -107,6 +112,10 @@ final class MoviesViewController: UIViewController {
         
         viewModel?.items.compactMap { !$0.isEmpty }
             .bind(to: tableView.backgroundView!.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        viewModel?.items.compactMap { $0.isEmpty }
+            .subscribe(onNext: { [weak self] _ in self?.placeholderView.configure(with: "No movies yet.") })
             .disposed(by: disposeBag)
         
         viewModel?.title.bind(to: rx.title)
