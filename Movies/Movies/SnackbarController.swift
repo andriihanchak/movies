@@ -11,7 +11,7 @@ import UIKit
 final class SnackbarController {
     
     private let disposeBag: DisposeBag = DisposeBag()
-    private let snackbarView: SnackbarView = .instantiateFromNib()
+    private let snackbarView: SnackbarView = SnackbarView.instantiateFromNib()
     
     init(networkReachabilityService: NetworkReachbilityService) {
         networkReachabilityService.connectionLost

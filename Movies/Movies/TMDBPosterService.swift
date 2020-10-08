@@ -9,7 +9,7 @@ import Foundation
 
 final class TMDBPosterService: PosterService {
     
-    private let baseURL = URL(string: "https://image.tmdb.org")!
+    private let baseURL: URL = URL(string: "https://image.tmdb.org")!
     
     func getMoviePosterURL(_ movie: Movie, size: PosterSize) -> URL? {
         guard let posterPath = movie.posterPath

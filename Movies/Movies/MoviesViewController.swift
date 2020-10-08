@@ -13,13 +13,13 @@ final class MoviesViewController: UIViewController {
     
     var viewModel: MoviesViewModelType?
     
-    private let disposeBag = DisposeBag()
+    private let disposeBag: DisposeBag = DisposeBag()
     
     @IBOutlet private weak var searchBar: UISearchBar!
     @IBOutlet private weak var searchBarBottomConstraint: NSLayoutConstraint!
     @IBOutlet private weak var tableView: UITableView!
     
-    private lazy var placeholderView: MoviesPlaceholderView = .instantiateFromNib()
+    private lazy var placeholderView: MoviesPlaceholderView = MoviesPlaceholderView.instantiateFromNib()
     private lazy var refreshControl: UIRefreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
