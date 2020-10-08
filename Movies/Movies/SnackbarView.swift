@@ -11,13 +11,18 @@ final class SnackbarView: UIView {
     
     @IBOutlet private weak var label: UILabel!
     
-    private var height: CGFloat = 44.0
+    private let defaultHeight: CGFloat = 44.0
+    private var height: CGFloat = 0
+    private var heightConstraint: NSLayoutConstraint?
     private var topConstraint: NSLayoutConstraint?
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override func layoutSubviews() {
+        super.layoutSubviews()
         
-        label.alpha = 0.0
+        calculateHeight()
+        
+        heightConstraint?.constant = height
+        topConstraint?.constant = -height
     }
     
     func embedded(into view: UIView) {
@@ -26,13 +31,13 @@ final class SnackbarView: UIView {
         view.addSubview(self)
         view.bringSubviewToFront(self)
         
-        if #available(iOS 11.0, *) {
-            height += view.safeAreaInsets.top
-        }
+        calculateHeight()
         
-        heightAnchor.constraint(equalToConstant: height).isActive = true
         leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        heightConstraint = heightAnchor.constraint(equalToConstant: height)
+        heightConstraint?.isActive = true
         
         topConstraint = topAnchor.constraint(equalTo: view.topAnchor, constant: -height)
         topConstraint?.isActive = true
@@ -53,8 +58,21 @@ final class SnackbarView: UIView {
         topConstraint?.constant = top
         
         UIView.animate(withDuration: 0.5) {
-            self.label.alpha = alpha
+            self.alpha = alpha
             self.superview?.layoutIfNeeded()
         }
+    }
+
+    private func calculateHeight() {
+        if #available(iOS 11.0, *) {
+            height = defaultHeight + (superview?.safeAreaInsets.top ?? 0)
+        } else {
+            height = defaultHeight + statusBarHeight()
+        }
+    }
+    
+    private func statusBarHeight() -> CGFloat {
+        let statusBarSize = UIApplication.shared.statusBarFrame.size
+        return Swift.min(statusBarSize.width, statusBarSize.height)
     }
 }

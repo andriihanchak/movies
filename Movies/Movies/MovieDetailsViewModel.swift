@@ -11,6 +11,8 @@ import RxSwift
 
 final class MovieDetailsViewModel: MovieDetailsViewModelType {
     
+    var isLoading: Observable<Bool> { loading.asObservable() }
+    
     var items: Observable<[MovieDetailsViewItem]> {
         return Observable.combineLatest(movie, trailerURL).map { self.createItems(from: $0.0) }
     }
@@ -25,6 +27,7 @@ final class MovieDetailsViewModel: MovieDetailsViewModelType {
     
     private let deinitialize: BehaviorRelay<Void> = .init(value: ())
     private let disposeBag = DisposeBag()
+    private let loading: BehaviorRelay<Bool> = .init(value: false)
     private let movie: BehaviorRelay<Movie>
     private let showErrorView: BehaviorRelay<String?> = .init(value: nil)
     private let showPlayerView: BehaviorRelay<URL?> = .init(value: nil)
@@ -49,11 +52,15 @@ final class MovieDetailsViewModel: MovieDetailsViewModelType {
         let getMovieDetails = movieService.getMovieDetails(movie.value)
         let getMovieVideos = movieService.getMovieVideos(movie.value)
         
+        loading.accept(true)
+        
         Observable.combineLatest(getMovieDetails, getMovieVideos)
             .observeOn(MainScheduler.instance)
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .subscribe(onNext: { [weak self] (movie, videos) in self?.updateMovie(movie: movie, videos: videos) },
                        onError: { [weak self] (error) in
+                        self?.loading.accept(false)
+                        
                         switch error {
                         case Error.getMovieDetails(_):
                             self?.showErrorView.accept("Couldn't get some movie details. Please, try again.")
@@ -62,10 +69,13 @@ final class MovieDetailsViewModel: MovieDetailsViewModelType {
                             self?.trailerURL.accept(nil)
                             self?.showErrorView.accept("Couldn't get movie trailer. Please, try again.")
                             
+                        case Error.notConnectedToInternet:
+                            self?.showErrorView.accept("No network connection. Please, try again.")
+                            
                         default:
                             self?.showErrorView.accept("Something went wrong. Please, try again.")
                         }
-                       })
+                       }, onCompleted: { [weak self] in self?.loading.accept(false) })
             .disposed(by: disposeBag)
     }
     

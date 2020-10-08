@@ -45,5 +45,5 @@ final class MovieDetailsViewMediaCell: UITableViewCell {
         onWatchTrailer?()
     }
     
-    private func placeholderImage() -> UIImage? { UIImage(named: "MoviesPlaceholder") }
+    private func placeholderImage() -> UIImage? { UIImage(named: "PlaceholderDetails") }
 }

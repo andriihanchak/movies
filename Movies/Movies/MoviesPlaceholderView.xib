@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="MoviesPlaceholderView" customModule="Movies" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="n9r-dY-El6">
+                    <rect key="frame" x="30" y="317.5" width="354" height="261"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Movies" translatesAutoresizingMaskIntoConstraints="NO" id="ckf-j6-ic8">
+                            <rect key="frame" x="100" y="0.0" width="154" height="200"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="ckf-j6-ic8" secondAttribute="height" multiplier="77:100" id="4Nk-uq-oKM"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No movies yet." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hq0-iU-cIT">
+                            <rect key="frame" x="97.5" y="232" width="159" height="29"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="24"/>
+                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="n9r-dY-El6" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="30" id="3RO-ga-e1B"/>
+                <constraint firstItem="n9r-dY-El6" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="3kK-iv-F8Q"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="n9r-dY-El6" secondAttribute="trailing" constant="30" id="h5g-Nh-iLo"/>
+                <constraint firstItem="n9r-dY-El6" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="jDe-gD-3kA"/>
+            </constraints>
+            <connections>
+                <outlet property="label" destination="hq0-iU-cIT" id="VcR-DX-B1j"/>
+            </connections>
+            <point key="canvasLocation" x="25" y="63"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Movies" width="154" height="200"/>
+    </resources>
+</document>

@@ -26,8 +26,13 @@ final class TMDBMovieService: MovieService {
         return Single<Movie>.create { (promise) -> Disposable in
             request.responseDecodable { (response: DataResponse<Movie, AFError>) in
                 switch response.result {
-                case .failure(_):
-                    promise(.error(Error.getMovieDetails(movie)))
+                case let .failure(error):
+                    if case AFError.sessionTaskFailed(let urlError) = error,
+                       let error = urlError as? URLError, error.code == URLError.Code.notConnectedToInternet {
+                        promise(.error(Error.notConnectedToInternet))
+                    } else {
+                        promise(.error(Error.getMovieDetails(movie)))
+                    }
                     
                 case let .success(movie):
                     promise(.success(movie))
@@ -47,8 +52,13 @@ final class TMDBMovieService: MovieService {
         return Single<[MovieVideo]>.create { (promise) -> Disposable in
             request.responseDecodable { (response: DataResponse<TMDBMovieVideo, AFError>) in
                 switch response.result{
-                case .failure(_):
-                    promise(.error(Error.getMovieVideos(movie)))
+                case let .failure(error):
+                    if case AFError.sessionTaskFailed(let urlError) = error,
+                       let error = urlError as? URLError, error.code == URLError.Code.notConnectedToInternet {
+                        promise(.error(Error.notConnectedToInternet))
+                    } else {
+                        promise(.error(Error.getMovieVideos(movie)))
+                    }
                     
                 case let .success(response):
                     promise(.success(response.results))
@@ -72,8 +82,13 @@ final class TMDBMovieService: MovieService {
         return Single<TMDBPopularMovie>.create { (promise) -> Disposable in
             request.responseDecodable { (response: DataResponse<TMDBPopularMovie, AFError>) in
                 switch response.result {
-                case .failure(_):
-                    promise(.error(Error.getPopularMovies))
+                case let .failure(error):
+                    if case AFError.sessionTaskFailed(let urlError) = error,
+                       let error = urlError as? URLError, error.code == URLError.Code.notConnectedToInternet {
+                        promise(.error(Error.notConnectedToInternet))
+                    } else {
+                        promise(.error(Error.getPopularMovies))
+                    }
                     
                 case let .success(popularMovies):
                     promise(.success(popularMovies))

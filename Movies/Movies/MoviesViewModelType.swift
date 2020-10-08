@@ -10,10 +10,11 @@ import RxSwift
 
 protocol MoviesViewModelType {
     
+    var isLoading: Observable<Bool> { get }
     var items: Observable<[MoviesViewItem]> { get }
     var title: Observable<String> { get }
     
     func filter(with criteria: String?)
-    func load()
+    func load(fromBeginning: Bool)
     func showDetails(forItemAt index: Int)
 }
