@@ -116,6 +116,8 @@ final class MoviesViewController: UIViewController {
     private func configureUserInterface() {
         navigationController?.navigationBar.tintColor = .black
         
+        placeholderView.configure(with: "Loading movies...")
+        
         searchBar.backgroundColor = .gray
         searchBar.placeholder = "Search"
         searchBar.tintColor = .black
