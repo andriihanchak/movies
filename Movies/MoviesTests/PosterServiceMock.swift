@@ -13,7 +13,7 @@ class PosterServiceMock: PosterService {
     
     var url: URL?
     
-    func getMoviePosterURL(_ movie: Movie, size: PosterSize) -> URL? {
+    func getMoviePosterURL(_ movie: MoviePosterIdentifiable, size: PosterSize) -> URL? {
         return url
     }
 }

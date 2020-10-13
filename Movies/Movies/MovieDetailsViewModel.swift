@@ -20,7 +20,6 @@ final class MovieDetailsViewModel: MovieDetailsViewModelType {
     var title: Observable<String> { .just("Movie Details") }
     
     var onDeinitialize: Observable<Void> { deinitialize.asObservable() }
-    var onShowErrorView: Observable<String> {  showErrorView.compactMap { $0 } }
     var onShowPlayerView: Observable<URL> { showPlayerView.compactMap { $0 } }
     
     static private let dateFormatter: DateFormatter = DateFormatter()
@@ -29,15 +28,16 @@ final class MovieDetailsViewModel: MovieDetailsViewModelType {
     private let disposeBag: DisposeBag = DisposeBag()
     private let loading: BehaviorRelay<Bool> = BehaviorRelay(value: false)
     private let movie: BehaviorRelay<Movie>
-    private let showErrorView: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     private let showPlayerView: BehaviorRelay<URL?> = BehaviorRelay(value: nil)
     private let trailerURL: BehaviorRelay<URL?> = BehaviorRelay(value: nil)
     
-    private let movieService: MovieService
+    private let errorController: ErrorControllerType
+    private let movieService: MovieInfoService
     private let posterService: PosterService
     private let trailerService: TrailerService
     
-    init(movie: Movie, movieService: MovieService, posterService: PosterService, trailerService: TrailerService) {
+    init(movie: Movie, movieService: MovieInfoService, posterService: PosterService, trailerService: TrailerService, errorController: ErrorControllerType) {
+        self.errorController = errorController
         self.movie = .init(value: movie)
         self.movieService = movieService
         self.posterService = posterService
@@ -57,26 +57,16 @@ final class MovieDetailsViewModel: MovieDetailsViewModelType {
         Observable.combineLatest(getMovieDetails, getMovieVideos)
             .observe(on: MainScheduler.instance)
             .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
-            .subscribe(onNext: { [weak self] (movie, videos) in self?.updateMovie(movie: movie, videos: videos) },
-                       onError: { [weak self] (error) in
-                        self?.loading.accept(false)
-                        
-                        switch error {
-                        case Error.getMovieDetails(_):
-                            self?.showErrorView.accept("Couldn't get some movie details. Please, try again.")
-                            
-                        case Error.getMovieVideos(_):
-                            self?.trailerURL.accept(nil)
-                            self?.showErrorView.accept("Couldn't get movie trailer. Please, try again.")
-                            
-                        case Error.notConnectedToInternet:
-                            self?.showErrorView.accept("No network connection. Please, try again.")
-                            
-                        default:
-                            self?.showErrorView.accept("Something went wrong. Please, try again.")
-                        }
-                       }, onCompleted: { [weak self] in self?.loading.accept(false) })
-            .disposed(by: disposeBag)
+            .subscribe(onNext: { [weak self] (movie, videos) in
+                self?.updateMovie(movie: movie, videos: videos)
+            }, onError: { [weak self] (error) in
+                if case Error.getMovieVideos = error { self?.trailerURL.accept(nil) }
+                
+                self?.loading.accept(false)
+                self?.errorController.showError(error)
+            }, onCompleted: { [weak self] in
+                self?.loading.accept(false)
+            }).disposed(by: disposeBag)
     }
     
     func watchTrailer() {

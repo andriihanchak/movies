@@ -20,13 +20,15 @@ final class MoviesViewCoordinator: Coordinator {
     }
     
     override func start() {
-        let viewModel = MoviesViewModel(movieService: appContext.movieService,
-                                        posterService: appContext.posterService)
+        let errorController = ErrorController()
+        let viewModel = MoviesViewModel(movieService: appContext.popularMoviesService,
+                                        posterService: appContext.posterService,
+                                        errorController: errorController)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let navigationController = storyboard.instantiateInitialViewController() as? UINavigationController
         let viewController = navigationController?.topViewController as? MoviesViewController
         
-        viewModel.onShowErrorView
+        errorController.onShowError
             .subscribe(onNext: { [weak self] (message) in self?.appContext.snackbarController.showMessage(message) })
             .disposed(by: disposeBag)
         

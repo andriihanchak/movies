@@ -9,7 +9,7 @@ import XCTest
 
 @testable import Movies
 
-class TMDBPosterServiceTests: XCTestCase {
+final class TMDBPosterServiceTests: XCTestCase {
 
     private var posterService: TMDBPosterService!
     

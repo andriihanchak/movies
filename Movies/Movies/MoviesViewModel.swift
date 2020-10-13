@@ -25,21 +25,21 @@ final class MoviesViewModel: MoviesViewModelType {
     
     var title: Observable<String> { .just("Movies") }
     
-    var onShowErrorView: Observable<String> {  showErrorView.compactMap { $0 } }
     var onShowMovieDetailsView: Observable<Movie> { showMovieDetailsView.compactMap{ $0 }  }
-
+    
     private let disposeBag: DisposeBag = DisposeBag()
     private var filter: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     private let loading: BehaviorRelay<Bool> = BehaviorRelay(value: false)
     private var movies: BehaviorRelay<[Movie]> = BehaviorRelay(value: [])
     private var page: Int = 1
-    private let showErrorView: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     private let showMovieDetailsView: BehaviorRelay<Movie?> = BehaviorRelay(value: nil)
     
-    private let movieService: MovieService
+    private let errorController: ErrorControllerType
+    private let movieService: PopularMoviesService
     private let posterService: PosterService
     
-    init(movieService: MovieService, posterService: PosterService) {
+    init(movieService: PopularMoviesService, posterService: PosterService, errorController: ErrorControllerType) {
+        self.errorController = errorController
         self.movieService = movieService
         self.posterService = posterService
     }
@@ -57,7 +57,7 @@ final class MoviesViewModel: MoviesViewModelType {
             page = 1
             movies.accept([])
         }
-    
+        
         movieService.getPopularMovies(page: page)
             .observe(on: MainScheduler.instance)
             .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
@@ -67,18 +67,10 @@ final class MoviesViewModel: MoviesViewModelType {
                 self.page = popularMovies.page + 1
             }, onError: { [weak self] (error) in
                 self?.loading.accept(false)
-                
-                switch error {
-                case Error.getPopularMovies:
-                    self?.showErrorView.accept("Couldn't get movies. Please, try again.")
-                    
-                case Error.notConnectedToInternet:
-                    self?.showErrorView.accept("No network connection. Please, try again.")
-                    
-                default:
-                    self?.showErrorView.accept("Something went wrong. Please, try again.")
-                }
-            }, onCompleted: { [weak self] in self?.loading.accept(false) }).disposed(by: disposeBag)
+                self?.errorController.showError(error)
+            }, onCompleted: { [weak self] in
+                self?.loading.accept(false)
+            }).disposed(by: disposeBag)
     }
     
     func showDetails(forItemAt index: Int) {
