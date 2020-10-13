@@ -45,6 +45,8 @@
 		85451F4A2535EA6700950171 /* MovieIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85451F492535EA6700950171 /* MovieIdentifiable.swift */; };
 		85451F502535EB4400950171 /* MoviePosterIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85451F4F2535EB4400950171 /* MoviePosterIdentifiable.swift */; };
 		85451F562535EE5000950171 /* PopularMoviesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85451F552535EE5000950171 /* PopularMoviesService.swift */; };
+		85451F602535F2B000950171 /* ErrorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85451F5F2535F2B000950171 /* ErrorController.swift */; };
+		85451F662535F75A00950171 /* ErrroControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85451F652535F75A00950171 /* ErrroControllerTests.swift */; };
 		85CAF1A5252DA778006C4944 /* AlamofireNetworkReachibilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CAF1A4252DA778006C4944 /* AlamofireNetworkReachibilityService.swift */; };
 		85CAF1AF252DAFFC006C4944 /* NetworkReachbilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CAF1AE252DAFFC006C4944 /* NetworkReachbilityService.swift */; };
 		85CAF1B8252DB287006C4944 /* SnackbarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85CAF1B7252DB287006C4944 /* SnackbarView.xib */; };
@@ -128,6 +130,8 @@
 		85451F492535EA6700950171 /* MovieIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieIdentifiable.swift; sourceTree = "<group>"; };
 		85451F4F2535EB4400950171 /* MoviePosterIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePosterIdentifiable.swift; sourceTree = "<group>"; };
 		85451F552535EE5000950171 /* PopularMoviesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularMoviesService.swift; sourceTree = "<group>"; };
+		85451F5F2535F2B000950171 /* ErrorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorController.swift; sourceTree = "<group>"; };
+		85451F652535F75A00950171 /* ErrroControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrroControllerTests.swift; sourceTree = "<group>"; };
 		85CAF1A4252DA778006C4944 /* AlamofireNetworkReachibilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireNetworkReachibilityService.swift; sourceTree = "<group>"; };
 		85CAF1AE252DAFFC006C4944 /* NetworkReachbilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachbilityService.swift; sourceTree = "<group>"; };
 		85CAF1B7252DB287006C4944 /* SnackbarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SnackbarView.xib; sourceTree = "<group>"; };
@@ -442,6 +446,7 @@
 		85334847252F515A0081262B /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				85451F652535F75A00950171 /* ErrroControllerTests.swift */,
 				8533486B252F593F0081262B /* MovieDetailsViewModelTests.swift */,
 				8533483F252F35200081262B /* MoviesViewModelTests.swift */,
 				85334843252F51430081262B /* TMDBPosterServiceTests.swift */,
@@ -504,6 +509,7 @@
 		85CAF1CA252DBBC5006C4944 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				85451F5F2535F2B000950171 /* ErrorController.swift */,
 				85CAF1CB252DBBD4006C4944 /* SnackbarController.swift */,
 			);
 			name = Controllers;
@@ -783,6 +789,7 @@
 				85451F4A2535EA6700950171 /* MovieIdentifiable.swift in Sources */,
 				85D97BBE252CCE3A0043F985 /* CoordinatorDelegate.swift in Sources */,
 				85190D3D252B667C0038635E /* MovieDetailsViewMediaItem.swift in Sources */,
+				85451F602535F2B000950171 /* ErrorController.swift in Sources */,
 				850DE1F3252C6CFB00EDABCF /* PosterService.swift in Sources */,
 				85190D18252B5D170038635E /* MoviesViewController.swift in Sources */,
 				850DE1DE252C5F1900EDABCF /* Movie.swift in Sources */,
@@ -796,6 +803,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				85334862252F56850081262B /* MoviesViewItem.swift in Sources */,
+				85451F662535F75A00950171 /* ErrroControllerTests.swift in Sources */,
 				85334872252F5A110081262B /* TrailerServiceMock.swift in Sources */,
 				8533485D252F55940081262B /* PosterServiceMock.swift in Sources */,
 				85334857252F55840081262B /* MovieServiceMock.swift in Sources */,

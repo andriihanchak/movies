@@ -28,24 +28,24 @@ final class MovieDetailsViewCoordinator: Coordinator {
         guard let viewController = storyboard.instantiateViewController(withIdentifier: MovieDetailsViewController.defaultStoryboardIdentifier) as? MovieDetailsViewController
         else { return }
         
-        let viewModel = MovieDetailsViewModel(movie: movie, movieService: appContext.movieInfoService, posterService: appContext.posterService, trailerService: appContext.trailerService)
+        let errorController = ErrorController()
+        let viewModel = MovieDetailsViewModel(movie: movie, movieService: appContext.movieInfoService, posterService: appContext.posterService, trailerService: appContext.trailerService, errorController: errorController)
         
-        viewController.viewModel = viewModel
+        errorController.onShowError
+            .subscribe(onNext: { [weak self] (message) in self?.appContext.snackbarController.showMessage(message) })
+            .disposed(by: disposeBag)
         
         viewModel.onDeinitialize
             .skip(1)
             .subscribe(onNext: { [weak self] in self?.finish() })
             .disposed(by: disposeBag)
-        
-        viewModel.onShowErrorView
-            .subscribe(onNext: { [weak self] (message) in self?.appContext.snackbarController.showMessage(message) })
-            .disposed(by: disposeBag)
-        
+    
         viewModel.onShowPlayerView
             .subscribe(onNext: { [weak self] (url) in
                         self?.showPlayerView(with: url) })
             .disposed(by: disposeBag)
                 
+        viewController.viewModel = viewModel
                        
         navigationController.pushViewController(viewController, animated: true)
     }

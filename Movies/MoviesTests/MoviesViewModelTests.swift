@@ -15,15 +15,19 @@ import XCTest
 final class MoviesViewModelTests: XCTestCase {
 
     private var disposeBag: DisposeBag!
+    private var errorController: ErrorController!
     private var movieService: MovieServiceMock!
     private var scheduler: TestScheduler!
     private var viewModel: MoviesViewModel!
     
     override func setUpWithError() throws {
         disposeBag = DisposeBag()
+        errorController = ErrorController()
         movieService = MovieServiceMock()
         scheduler = TestScheduler(initialClock : 0)
-        viewModel = MoviesViewModel(movieService: movieService, posterService: PosterServiceMock())
+        viewModel = MoviesViewModel(movieService: movieService,
+                                    posterService: PosterServiceMock(),
+                                    errorController: errorController)
     }
     
     func testTitle_emitsTitle() {
@@ -110,13 +114,13 @@ final class MoviesViewModelTests: XCTestCase {
         let expectedEvents: [Recorded<Event<String>>] = expectedErrors.compactMap { .next(0, $0) }
         let observer = scheduler.createObserver(String.self)
         
-        viewModel.onShowErrorView
+        errorController.onShowError
             .scan(0, accumulator: { (sum, _) in sum + 1 })
             .filter { $0 == expectedEvents.count  }
             .subscribe(onNext: { _ in expectation.fulfill() })
             .disposed(by: disposeBag)
         
-        viewModel.onShowErrorView
+        errorController.onShowError
             .subscribe(observer)
             .disposed(by: disposeBag)
         

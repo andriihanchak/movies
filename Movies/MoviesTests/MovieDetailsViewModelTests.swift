@@ -30,7 +30,8 @@ final class MovieDetailsViewModelTests: XCTestCase {
         let viewModel = MovieDetailsViewModel(movie: movie,
                                               movieService: movieService,
                                               posterService: PosterServiceMock(),
-                                              trailerService: trailerService)
+                                              trailerService: trailerService,
+                                              errorController: ErrorController())
         let expectation = self.expectation(description: "watchTrailer")
         let expectedURL = URL(string: "https://youtube.com/v/\(movieVideo.key)")!
         let expectedEvents: [Recorded<Event<URL>>] = [.next(0, expectedURL)]
@@ -59,9 +60,7 @@ final class MovieDetailsViewModelTests: XCTestCase {
     
         waitForExpectations(timeout: 5.0) { (error) in
             XCTAssertNil(error)
-            print(observer.events)
             XCTAssertEqual(observer.events, expectedEvents)
-            
         }
     }
 }
