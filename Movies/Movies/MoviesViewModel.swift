@@ -36,10 +36,10 @@ final class MoviesViewModel: MoviesViewModelType {
     private let showErrorView: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     private let showMovieDetailsView: BehaviorRelay<Movie?> = BehaviorRelay(value: nil)
     
-    private let movieService: MovieService
+    private let movieService: PopularMoviesService
     private let posterService: PosterService
     
-    init(movieService: MovieService, posterService: PosterService) {
+    init(movieService: PopularMoviesService, posterService: PosterService) {
         self.movieService = movieService
         self.posterService = posterService
     }

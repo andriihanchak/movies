@@ -9,7 +9,7 @@ import Alamofire
 import Foundation
 import RxSwift
 
-final class TMDBMovieService: MovieService {
+final class TMDBMovieService: MovieInfoService, PopularMoviesService {
     
     private let apiKey: String
     

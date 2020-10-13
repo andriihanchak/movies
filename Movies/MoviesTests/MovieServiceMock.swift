@@ -10,7 +10,7 @@ import RxSwift
 
 @testable import Movies
 
-class MovieServiceMock: MovieService {
+class MovieServiceMock: MovieInfoService, PopularMoviesService {
     
     var error: Error!
     var movie: Movie!

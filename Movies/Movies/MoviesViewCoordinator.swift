@@ -20,7 +20,7 @@ final class MoviesViewCoordinator: Coordinator {
     }
     
     override func start() {
-        let viewModel = MoviesViewModel(movieService: appContext.movieService,
+        let viewModel = MoviesViewModel(movieService: appContext.popularMoviesService,
                                         posterService: appContext.posterService)
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let navigationController = storyboard.instantiateInitialViewController() as? UINavigationController
