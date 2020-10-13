@@ -12,28 +12,31 @@ import XCTest
 
 @testable import Movies
 
-class MoviesViewModelTests: XCTestCase {
+final class MoviesViewModelTests: XCTestCase {
 
-    var disposeBag: DisposeBag!
-    var scheduler: TestScheduler!
+    private var disposeBag: DisposeBag!
+    private var errorController: ErrorController!
+    private var movieService: MovieServiceMock!
+    private var scheduler: TestScheduler!
+    private var viewModel: MoviesViewModel!
     
     override func setUpWithError() throws {
         disposeBag = DisposeBag()
+        errorController = ErrorController()
+        movieService = MovieServiceMock()
         scheduler = TestScheduler(initialClock : 0)
+        viewModel = MoviesViewModel(movieService: movieService,
+                                    posterService: PosterServiceMock(),
+                                    errorController: errorController)
     }
     
     func testTitle_emitsTitle() {
-        let viewModel: MoviesViewModelType = MoviesViewModel(movieService: MovieServiceMock(),
-                                                             posterService: PosterServiceMock())
-        
         let observable = viewModel.title
         
         XCTAssertEqual(try observable.toBlocking().single(), "Movies")
     }
     
     func testLoad_whenFilterIsEmpty_shouldEmitIsLoadingSequence() {
-        let movieService = MovieServiceMock()
-        let viewModel = MoviesViewModel(movieService: movieService, posterService: PosterServiceMock())
         let expectation = self.expectation(description: "isLoading")
         let expectedEvents: [Recorded<Event<Bool>>] = [.next(0, false), .next(0, true), .next(0, false)]
         let observer = scheduler.createObserver(Bool.self)
@@ -61,7 +64,6 @@ class MoviesViewModelTests: XCTestCase {
     }
     
     func testLoad_whenFilterIsNotEmpty_shouldIgonoreLoading() {
-        let viewModel = MoviesViewModel(movieService: MovieServiceMock(), posterService: PosterServiceMock())
         let expectedEvents: [Recorded<Event<Bool>>] = [.next(0, false)]
         let observer = scheduler.createObserver(Bool.self)
         
@@ -78,8 +80,6 @@ class MoviesViewModelTests: XCTestCase {
     }
     
     func testLoad_whenMovieServiveSucceeds_shouldEmitMoviesViewItems() {
-        let movieService = MovieServiceMock()
-        let viewModel = MoviesViewModel(movieService: movieService, posterService: PosterServiceMock())
         let expectation = self.expectation(description: "firstPageMovies")
         let expectedMovies: [Movie] = [.stubbed(title: "1"), .stubbed(title: "2"), .stubbed(title: "3")]
         let expectedItems: [MoviesViewItem] = expectedMovies.compactMap { .init(title: $0.title, posterURL: nil) }
@@ -108,21 +108,19 @@ class MoviesViewModelTests: XCTestCase {
     }
     
     func testLoad_whenMovieServiceFails_shouldEmitError() {
-        let movieService = MovieServiceMock()
-        let viewModel = MoviesViewModel(movieService: movieService, posterService: PosterServiceMock())
         let expectation = self.expectation(description: "error")
         let expectedErrors = ["Couldn't get movies. Please, try again.",
                               "No network connection. Please, try again."]
         let expectedEvents: [Recorded<Event<String>>] = expectedErrors.compactMap { .next(0, $0) }
         let observer = scheduler.createObserver(String.self)
         
-        viewModel.onShowErrorView
+        errorController.onShowError
             .scan(0, accumulator: { (sum, _) in sum + 1 })
             .filter { $0 == expectedEvents.count  }
             .subscribe(onNext: { _ in expectation.fulfill() })
             .disposed(by: disposeBag)
         
-        viewModel.onShowErrorView
+        errorController.onShowError
             .subscribe(observer)
             .disposed(by: disposeBag)
         

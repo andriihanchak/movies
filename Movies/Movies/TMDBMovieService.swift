@@ -9,7 +9,7 @@ import Alamofire
 import Foundation
 import RxSwift
 
-final class TMDBMovieService: MovieService {
+final class TMDBMovieService: MovieInfoService, PopularMoviesService {
     
     private let apiKey: String
     
@@ -17,7 +17,8 @@ final class TMDBMovieService: MovieService {
         self.apiKey = apiKey
     }
     
-    func getMovieDetails(_ movie: Movie) -> Observable<Movie> {
+    func getMovieDetails(_ movie: MovieIdentifiable) -> Observable<Movie> {
+        let parsedError = self.parseError(_:expected:)
         let request = AF.request(API.movieDetails(id: movie.id).url(),
                                  method: .get,
                                  parameters: defaultParameters(),
@@ -27,12 +28,7 @@ final class TMDBMovieService: MovieService {
             request.responseDecodable { (response: DataResponse<Movie, AFError>) in
                 switch response.result {
                 case let .failure(error):
-                    if case AFError.sessionTaskFailed(let urlError) = error,
-                       let error = urlError as? URLError, error.code == URLError.Code.notConnectedToInternet {
-                        promise(.failure(Error.notConnectedToInternet))
-                    } else {
-                        promise(.failure(Error.getMovieDetails(movie)))
-                    }
+                    promise(.failure(parsedError(error, .getMovieDetails)))
                     
                 case let .success(movie):
                     promise(.success(movie))
@@ -43,7 +39,8 @@ final class TMDBMovieService: MovieService {
         }.asObservable()
     }
     
-    func getMovieVideos(_ movie: Movie) -> Observable<[MovieVideo]> {
+    func getMovieVideos(_ movie: MovieIdentifiable) -> Observable<[MovieVideo]> {
+        let parsedError = self.parseError(_:expected:)
         let request = AF.request(API.movieVideo(id: movie.id).url(),
                                  method: .get,
                                  parameters: defaultParameters(),
@@ -53,12 +50,7 @@ final class TMDBMovieService: MovieService {
             request.responseDecodable { (response: DataResponse<TMDBMovieVideo, AFError>) in
                 switch response.result{
                 case let .failure(error):
-                    if case AFError.sessionTaskFailed(let urlError) = error,
-                       let error = urlError as? URLError, error.code == URLError.Code.notConnectedToInternet {
-                        promise(.failure(Error.notConnectedToInternet))
-                    } else {
-                        promise(.failure(Error.getMovieVideos(movie)))
-                    }
+                    promise(.failure(parsedError(error, .getMovieVideos)))
                     
                 case let .success(response):
                     promise(.success(response.results))
@@ -74,6 +66,7 @@ final class TMDBMovieService: MovieService {
         
         parameters["page"] = page
         
+        let parsedError = self.parseError(_:expected:)
         let request = AF.request(API.popularMovies.url(),
                                  method: .get,
                                  parameters: parameters,
@@ -83,12 +76,7 @@ final class TMDBMovieService: MovieService {
             request.responseDecodable { (response: DataResponse<TMDBPopularMovie, AFError>) in
                 switch response.result {
                 case let .failure(error):
-                    if case AFError.sessionTaskFailed(let urlError) = error,
-                       let error = urlError as? URLError, error.code == URLError.Code.notConnectedToInternet {
-                        promise(.failure(Error.notConnectedToInternet))
-                    } else {
-                        promise(.failure(Error.getPopularMovies))
-                    }
+                    promise(.failure(parsedError(error, .getPopularMovies)))
                     
                 case let .success(popularMovies):
                     promise(.success(popularMovies))
@@ -97,6 +85,13 @@ final class TMDBMovieService: MovieService {
             
             return Disposables.create { request.cancel() }
         }.asObservable()
+    }
+
+    private func parseError(_ error: AFError, expected: Error) -> Error {
+        guard case AFError.sessionTaskFailed(let urlError) = error,
+              let error = urlError as? URLError, error.code == URLError.Code.notConnectedToInternet
+        else { return expected }
+        return .notConnectedToInternet
     }
 }
 

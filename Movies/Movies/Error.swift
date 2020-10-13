@@ -9,8 +9,8 @@ import Foundation
 
 enum Error: Swift.Error {
     
-    case getMovieDetails(_ movie: Movie)
-    case getMovieVideos(_ movie: Movie)
+    case getMovieDetails
+    case getMovieVideos
     case getPopularMovies
     case notConnectedToInternet
 }

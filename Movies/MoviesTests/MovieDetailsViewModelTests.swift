@@ -12,10 +12,10 @@ import XCTest
 
 @testable import Movies
 
-class MovieDetailsViewModelTests: XCTestCase {
+final class MovieDetailsViewModelTests: XCTestCase {
 
-    var disposeBag: DisposeBag!
-    var scheduler: TestScheduler!
+    private var disposeBag: DisposeBag!
+    private var scheduler: TestScheduler!
     
     override func setUpWithError() throws {
         disposeBag = DisposeBag()
@@ -30,7 +30,8 @@ class MovieDetailsViewModelTests: XCTestCase {
         let viewModel = MovieDetailsViewModel(movie: movie,
                                               movieService: movieService,
                                               posterService: PosterServiceMock(),
-                                              trailerService: trailerService)
+                                              trailerService: trailerService,
+                                              errorController: ErrorController())
         let expectation = self.expectation(description: "watchTrailer")
         let expectedURL = URL(string: "https://youtube.com/v/\(movieVideo.key)")!
         let expectedEvents: [Recorded<Event<URL>>] = [.next(0, expectedURL)]
@@ -59,9 +60,7 @@ class MovieDetailsViewModelTests: XCTestCase {
     
         waitForExpectations(timeout: 5.0) { (error) in
             XCTAssertNil(error)
-            print(observer.events)
             XCTAssertEqual(observer.events, expectedEvents)
-            
         }
     }
 }

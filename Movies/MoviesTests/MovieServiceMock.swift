@@ -10,18 +10,18 @@ import RxSwift
 
 @testable import Movies
 
-class MovieServiceMock: MovieService {
+class MovieServiceMock: MovieInfoService, PopularMoviesService {
     
     var error: Error!
     var movie: Movie!
     var movieVideos: [MovieVideo]!
     var popularMovie: TMDBPopularMovie!
     
-    func getMovieDetails(_ movie: Movie) -> Observable<Movie> {
-        return error != nil ? .error(error) : .just(movie)
+    func getMovieDetails(_ movie: MovieIdentifiable) -> Observable<Movie> {
+        return error != nil ? .error(error) : .just(self.movie)
     }
     
-    func getMovieVideos(_ movie: Movie) -> Observable<[MovieVideo]> {
+    func getMovieVideos(_ movie: MovieIdentifiable) -> Observable<[MovieVideo]> {
         return error != nil ? .error(error) : .just(movieVideos)
     }
     
