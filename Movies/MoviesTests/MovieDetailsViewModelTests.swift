@@ -12,10 +12,10 @@ import XCTest
 
 @testable import Movies
 
-class MovieDetailsViewModelTests: XCTestCase {
+final class MovieDetailsViewModelTests: XCTestCase {
 
-    var disposeBag: DisposeBag!
-    var scheduler: TestScheduler!
+    private var disposeBag: DisposeBag!
+    private var scheduler: TestScheduler!
     
     override func setUpWithError() throws {
         disposeBag = DisposeBag()
