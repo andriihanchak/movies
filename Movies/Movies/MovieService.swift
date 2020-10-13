@@ -10,7 +10,7 @@ import RxSwift
 
 protocol MovieService {
     
-    func getMovieDetails(_ movie: Movie) -> Observable<Movie>
-    func getMovieVideos(_ movie: Movie) -> Observable<[MovieVideo]>
+    func getMovieDetails(_ movie: MovieIdentifiable) -> Observable<Movie>
+    func getMovieVideos(_ movie: MovieIdentifiable) -> Observable<[MovieVideo]>
     func getPopularMovies(page: Int) -> Observable<TMDBPopularMovie>
 }

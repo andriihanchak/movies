@@ -17,7 +17,7 @@ final class TMDBMovieService: MovieService {
         self.apiKey = apiKey
     }
     
-    func getMovieDetails(_ movie: Movie) -> Observable<Movie> {
+    func getMovieDetails(_ movie: MovieIdentifiable) -> Observable<Movie> {
         let request = AF.request(API.movieDetails(id: movie.id).url(),
                                  method: .get,
                                  parameters: defaultParameters(),
@@ -31,7 +31,7 @@ final class TMDBMovieService: MovieService {
                        let error = urlError as? URLError, error.code == URLError.Code.notConnectedToInternet {
                         promise(.failure(Error.notConnectedToInternet))
                     } else {
-                        promise(.failure(Error.getMovieDetails(movie)))
+                        promise(.failure(Error.getMovieDetails))
                     }
                     
                 case let .success(movie):
@@ -43,7 +43,7 @@ final class TMDBMovieService: MovieService {
         }.asObservable()
     }
     
-    func getMovieVideos(_ movie: Movie) -> Observable<[MovieVideo]> {
+    func getMovieVideos(_ movie: MovieIdentifiable) -> Observable<[MovieVideo]> {
         let request = AF.request(API.movieVideo(id: movie.id).url(),
                                  method: .get,
                                  parameters: defaultParameters(),
@@ -57,7 +57,7 @@ final class TMDBMovieService: MovieService {
                        let error = urlError as? URLError, error.code == URLError.Code.notConnectedToInternet {
                         promise(.failure(Error.notConnectedToInternet))
                     } else {
-                        promise(.failure(Error.getMovieVideos(movie)))
+                        promise(.failure(Error.getMovieVideos))
                     }
                     
                 case let .success(response):

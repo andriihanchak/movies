@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Movie: Codable {
+struct Movie: Codable, MovieIdentifiable, MoviePosterIdentifiable {
     
     enum CodingKeys: String, CodingKey {
         

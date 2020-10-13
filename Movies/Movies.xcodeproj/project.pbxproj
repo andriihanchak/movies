@@ -42,6 +42,8 @@
 		85334862252F56850081262B /* MoviesViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85334861252F56850081262B /* MoviesViewItem.swift */; };
 		8533486C252F593F0081262B /* MovieDetailsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8533486B252F593F0081262B /* MovieDetailsViewModelTests.swift */; };
 		85334872252F5A110081262B /* TrailerServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85334871252F5A110081262B /* TrailerServiceMock.swift */; };
+		85451F4A2535EA6700950171 /* MovieIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85451F492535EA6700950171 /* MovieIdentifiable.swift */; };
+		85451F502535EB4400950171 /* MoviePosterIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85451F4F2535EB4400950171 /* MoviePosterIdentifiable.swift */; };
 		85CAF1A5252DA778006C4944 /* AlamofireNetworkReachibilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CAF1A4252DA778006C4944 /* AlamofireNetworkReachibilityService.swift */; };
 		85CAF1AF252DAFFC006C4944 /* NetworkReachbilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CAF1AE252DAFFC006C4944 /* NetworkReachbilityService.swift */; };
 		85CAF1B8252DB287006C4944 /* SnackbarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 85CAF1B7252DB287006C4944 /* SnackbarView.xib */; };
@@ -122,6 +124,8 @@
 		85334861252F56850081262B /* MoviesViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesViewItem.swift; sourceTree = "<group>"; };
 		8533486B252F593F0081262B /* MovieDetailsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewModelTests.swift; sourceTree = "<group>"; };
 		85334871252F5A110081262B /* TrailerServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailerServiceMock.swift; sourceTree = "<group>"; };
+		85451F492535EA6700950171 /* MovieIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieIdentifiable.swift; sourceTree = "<group>"; };
+		85451F4F2535EB4400950171 /* MoviePosterIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviePosterIdentifiable.swift; sourceTree = "<group>"; };
 		85CAF1A4252DA778006C4944 /* AlamofireNetworkReachibilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireNetworkReachibilityService.swift; sourceTree = "<group>"; };
 		85CAF1AE252DAFFC006C4944 /* NetworkReachbilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachbilityService.swift; sourceTree = "<group>"; };
 		85CAF1B7252DB287006C4944 /* SnackbarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SnackbarView.xib; sourceTree = "<group>"; };
@@ -506,6 +510,8 @@
 			isa = PBXGroup;
 			children = (
 				85D97B91252CB1EC0043F985 /* Error.swift */,
+				85451F492535EA6700950171 /* MovieIdentifiable.swift */,
+				85451F4F2535EB4400950171 /* MoviePosterIdentifiable.swift */,
 				85D97B95252CB4010043F985 /* PosterSize.swift */,
 			);
 			name = Types;
@@ -735,6 +741,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				85CAF1C2252DB359006C4944 /* UIView.swift in Sources */,
+				85451F502535EB4400950171 /* MoviePosterIdentifiable.swift in Sources */,
 				85D97BBA252CCE1C0043F985 /* CoordinatorType.swift in Sources */,
 				85D97BC3252CCE7C0043F985 /* MoviesViewCoordinator.swift in Sources */,
 				850DE1D3252C54D700EDABCF /* TMDBMovieService.swift in Sources */,
@@ -769,6 +776,7 @@
 				85D97BB4252CCDEA0043F985 /* Coordinator.swift in Sources */,
 				85D97BEC252CD8640043F985 /* XCDYouTubeService.swift in Sources */,
 				850DE18A252C4EA700EDABCF /* UITableViewCell.swift in Sources */,
+				85451F4A2535EA6700950171 /* MovieIdentifiable.swift in Sources */,
 				85D97BBE252CCE3A0043F985 /* CoordinatorDelegate.swift in Sources */,
 				85190D3D252B667C0038635E /* MovieDetailsViewMediaItem.swift in Sources */,
 				850DE1F3252C6CFB00EDABCF /* PosterService.swift in Sources */,

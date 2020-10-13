@@ -62,10 +62,10 @@ final class MovieDetailsViewModel: MovieDetailsViewModelType {
                         self?.loading.accept(false)
                         
                         switch error {
-                        case Error.getMovieDetails(_):
+                        case Error.getMovieDetails:
                             self?.showErrorView.accept("Couldn't get some movie details. Please, try again.")
                             
-                        case Error.getMovieVideos(_):
+                        case Error.getMovieVideos:
                             self?.trailerURL.accept(nil)
                             self?.showErrorView.accept("Couldn't get movie trailer. Please, try again.")
                             
