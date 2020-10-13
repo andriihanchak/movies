@@ -18,6 +18,7 @@ final class TMDBMovieService: MovieInfoService, PopularMoviesService {
     }
     
     func getMovieDetails(_ movie: MovieIdentifiable) -> Observable<Movie> {
+        let parsedError = self.parseError(_:expected:)
         let request = AF.request(API.movieDetails(id: movie.id).url(),
                                  method: .get,
                                  parameters: defaultParameters(),
@@ -27,12 +28,7 @@ final class TMDBMovieService: MovieInfoService, PopularMoviesService {
             request.responseDecodable { (response: DataResponse<Movie, AFError>) in
                 switch response.result {
                 case let .failure(error):
-                    if case AFError.sessionTaskFailed(let urlError) = error,
-                       let error = urlError as? URLError, error.code == URLError.Code.notConnectedToInternet {
-                        promise(.failure(Error.notConnectedToInternet))
-                    } else {
-                        promise(.failure(Error.getMovieDetails))
-                    }
+                    promise(.failure(parsedError(error, .getMovieDetails)))
                     
                 case let .success(movie):
                     promise(.success(movie))
@@ -44,6 +40,7 @@ final class TMDBMovieService: MovieInfoService, PopularMoviesService {
     }
     
     func getMovieVideos(_ movie: MovieIdentifiable) -> Observable<[MovieVideo]> {
+        let parsedError = self.parseError(_:expected:)
         let request = AF.request(API.movieVideo(id: movie.id).url(),
                                  method: .get,
                                  parameters: defaultParameters(),
@@ -53,12 +50,7 @@ final class TMDBMovieService: MovieInfoService, PopularMoviesService {
             request.responseDecodable { (response: DataResponse<TMDBMovieVideo, AFError>) in
                 switch response.result{
                 case let .failure(error):
-                    if case AFError.sessionTaskFailed(let urlError) = error,
-                       let error = urlError as? URLError, error.code == URLError.Code.notConnectedToInternet {
-                        promise(.failure(Error.notConnectedToInternet))
-                    } else {
-                        promise(.failure(Error.getMovieVideos))
-                    }
+                    promise(.failure(parsedError(error, .getMovieVideos)))
                     
                 case let .success(response):
                     promise(.success(response.results))
@@ -74,6 +66,7 @@ final class TMDBMovieService: MovieInfoService, PopularMoviesService {
         
         parameters["page"] = page
         
+        let parsedError = self.parseError(_:expected:)
         let request = AF.request(API.popularMovies.url(),
                                  method: .get,
                                  parameters: parameters,
@@ -83,12 +76,7 @@ final class TMDBMovieService: MovieInfoService, PopularMoviesService {
             request.responseDecodable { (response: DataResponse<TMDBPopularMovie, AFError>) in
                 switch response.result {
                 case let .failure(error):
-                    if case AFError.sessionTaskFailed(let urlError) = error,
-                       let error = urlError as? URLError, error.code == URLError.Code.notConnectedToInternet {
-                        promise(.failure(Error.notConnectedToInternet))
-                    } else {
-                        promise(.failure(Error.getPopularMovies))
-                    }
+                    promise(.failure(parsedError(error, .getPopularMovies)))
                     
                 case let .success(popularMovies):
                     promise(.success(popularMovies))
@@ -97,6 +85,13 @@ final class TMDBMovieService: MovieInfoService, PopularMoviesService {
             
             return Disposables.create { request.cancel() }
         }.asObservable()
+    }
+
+    private func parseError(_ error: AFError, expected: Error) -> Error {
+        guard case AFError.sessionTaskFailed(let urlError) = error,
+              let error = urlError as? URLError, error.code == URLError.Code.notConnectedToInternet
+        else { return expected }
+        return .notConnectedToInternet
     }
 }
 
