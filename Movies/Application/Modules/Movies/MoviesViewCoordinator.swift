@@ -8,18 +8,17 @@
 import RxSwift
 import UIKit
 
-final class MoviesViewCoordinator: Coordinator {
+final class MoviesViewCoordinator: Coordinator<Void> {
     
     private let appContext: AppContext
     private let disposeBag: DisposeBag = DisposeBag()
-    private var window: UIWindow?
+    private var window: UIWindow { appContext.window }
     
-    init(window: UIWindow?, appContext: AppContext) {
+    init(appContext: AppContext) {
         self.appContext = appContext
-        self.window = window
     }
     
-    override func start() {
+    override func start() -> Observable<Void> {
         let errorController = ErrorController()
         let viewModel = MoviesViewModel(movieService: appContext.popularMoviesService,
                                         posterService: appContext.posterService,
@@ -33,24 +32,25 @@ final class MoviesViewCoordinator: Coordinator {
             .disposed(by: disposeBag)
         
         viewModel.onShowMovieDetailsView
-            .subscribe(onNext: { [weak self] (movie) in self?.showMovieDetailsView(for: movie) })
+            .flatMap { [unowned self] (movie) in self.showMovieDetailsView(for: movie)  }
+            .subscribe()
             .disposed(by: disposeBag)
             
         viewController?.viewModel = viewModel
         
-        window?.rootViewController = navigationController
+        window.rootViewController = navigationController
+        
+        return viewModel.onDeinitialize
+            .do(onCompleted: { [weak self] in self?.window.rootViewController = nil })
+            .asObservable()
     }
     
-    override func finish() {
-        window?.rootViewController = nil
-    }
-    
-    private func showMovieDetailsView(for movie: Movie) {
-        guard let navigationController = window?.rootViewController as? UINavigationController
-        else { return }
+    private func showMovieDetailsView(for movie: Movie) -> Observable<Void> {
+        guard let navigationController = window.rootViewController as? UINavigationController
+        else { return Observable.empty().asObservable() }
         
         let coordinator = MovieDetailsViewCoordinator(navigationController: navigationController, movie: movie, appContext: appContext)
         
-        start(coordination: coordinator)
+        return start(coordinator)
     }
 }

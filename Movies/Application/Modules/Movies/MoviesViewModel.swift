@@ -9,7 +9,7 @@ import Foundation
 import RxRelay
 import RxSwift
 
-final class MoviesViewModel: MoviesViewModelType {
+final class MoviesViewModel: ViewModel, MoviesViewModelType {
     
     var isLoading: Observable<Bool> { loading.asObservable() }
     
