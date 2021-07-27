@@ -10,21 +10,21 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    private let appContext: AppContext = AppContext()
-    private var coordinator: CoordinatorType?
+    private var appContext: AppContext!
+    private var appCoordinator: AppCoordinator!
     
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        guard let window = window else { return true }
         
+        appContext = AppContext(window: window)
         appContext.networkReachibilityService.startMonitoring()
         
-        coordinator = MoviesViewCoordinator(window: window, appContext: appContext)
-        coordinator?.start()
+        appCoordinator = AppCoordinator(appContext: appContext)
+        _ = appCoordinator.start()
         
-        if let window = window {
-            appContext.snackbarController.initialize(with: window)
-        }
+        appContext.snackbarController.initialize(with: window)
         
         return true
     }

@@ -6,38 +6,40 @@
 //
 
 import Foundation
+import RxSwift
 
-class Coordinator: CoordinatorType, CoordinatorDelegate {
-   
-    final weak var delegate: CoordinatorDelegate?
+class Coordinator<Output> {
     
-    final let id: UUID = UUID()
-    final private var coordinators: [UUID: CoordinatorType] = [:]
+    typealias ResultType = Output
     
-    func start() {
-        fatalError("This method must be implemented by a subclass.")
-    }
-
-    final func start(coordination coordinator: Coordinator) {
-        attach(coordinator: coordinator)
+    private var coordinators: [ObjectIdentifier: Any] = [:]
+    
+    final func start<Output>(_ coordinator: Coordinator<Output>) -> Observable<Output>  {
+        append(coordinator)
         
-        coordinator.delegate = self
-        coordinator.start()
+        return coordinator.start()
+            .do(onNext: { [weak self, weak coordinator] _ in
+                guard let coordinator = coordinator
+                else { return }
+                
+                self?.remove(coordinator)
+            })
+            .asObservable()
     }
     
-    func finish() {
-        delegate?.finish(self)
+    func start() -> Observable<Output> {
+        fatalError("This method must be overrided in a subclass.")
     }
     
-    final func finish(_ coordinator: CoordinatorType) {
-        detach(coordinator: coordinator)
-    }
-
-    final private func attach(coordinator: CoordinatorType) {
-        coordinators[coordinator.id] = coordinator
+    private func append<Output>(_ coordinator: Coordinator<Output>) {
+        let identifier = ObjectIdentifier(coordinator)
+        
+        coordinators[identifier] = coordinator
     }
     
-    final private func detach(coordinator: CoordinatorType) {
-        coordinators[coordinator.id] = nil
+    private func remove<Output>(_ coordinator: Coordinator<Output>) {
+        let identifier = ObjectIdentifier(coordinator)
+        
+        coordinators[identifier] = nil
     }
 }

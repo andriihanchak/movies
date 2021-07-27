@@ -9,7 +9,7 @@ import Foundation
 import RxRelay
 import RxSwift
 
-final class MovieDetailsViewModel: MovieDetailsViewModelType {
+final class MovieDetailsViewModel: ViewModel, MovieDetailsViewModelType {
     
     var isLoading: Observable<Bool> { loading.asObservable() }
     
@@ -19,12 +19,10 @@ final class MovieDetailsViewModel: MovieDetailsViewModelType {
     
     var title: Observable<String> { .just("Movie Details") }
     
-    var onDeinitialize: Observable<Void> { deinitialize.asObservable() }
     var onShowPlayerView: Observable<URL> { showPlayerView.compactMap { $0 } }
     
     static private let dateFormatter: DateFormatter = DateFormatter()
     
-    private let deinitialize: BehaviorRelay<Void> = BehaviorRelay(value: ())
     private let disposeBag: DisposeBag = DisposeBag()
     private let loading: BehaviorRelay<Bool> = BehaviorRelay(value: false)
     private let movie: BehaviorRelay<Movie>
@@ -42,10 +40,6 @@ final class MovieDetailsViewModel: MovieDetailsViewModelType {
         self.movieService = movieService
         self.posterService = posterService
         self.trailerService = trailerService
-    }
-    
-    deinit {
-        deinitialize.accept(())
     }
     
     func loadDetails() {
