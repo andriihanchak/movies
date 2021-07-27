@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol CoordinatorDelegate: class {
+protocol CoordinatorDelegate: AnyObject {
     
     func finish(_ coordinator: CoordinatorType)
 }
